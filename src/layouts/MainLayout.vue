@@ -6,6 +6,7 @@ import { useAppStore } from '../stores/appStore';
 import { useUsersStore } from '../stores/usersStore';
 import { useRouter } from 'vue-router';
 import LoginDialog from '../dialogs/LoginDialog.vue';
+import ProfileDialog from '../dialogs/ProfileDialog.vue';
 
 import { onMounted } from 'vue';
 
@@ -22,6 +23,7 @@ onMounted(() => {
   if (!usersStore.loggedUser) {
     usersStore.autoLogin();
   }
+  appStore.showProfileDialog = false;
 });
 </script>
 
@@ -61,7 +63,12 @@ onMounted(() => {
             @click="appStore.showLoginDialog = true"
           />
 
-          <q-btn v-if="usersStore.loggedUser && usersStore.loggedUser.picture!.length > 2" color="primary" round>
+          <q-btn
+            v-if="usersStore.loggedUser && usersStore.loggedUser.picture!.length > 2"
+            color="primary"
+            round
+            @click="appStore.showProfileDialog = true"
+          >
             <q-avatar size="36px">
               <q-img :src="usersStore.loggedUser.picture as string" />
             </q-avatar>
@@ -71,6 +78,7 @@ onMounted(() => {
             class="q-ma-sm"
             color="primary"
             round
+            @click="appStore.showProfileDialog = true"
           >
             <q-avatar size="36px">
               {{ usersStore.loggedUser.picture?.toUpperCase() }}
@@ -130,6 +138,7 @@ onMounted(() => {
       </q-footer>
 
       <LoginDialog email="esze.gabor@students.jedlik.eu" password="gabor" />
+      <ProfileDialog />
 
       <!-- Main container (DON'T DELETE!) -->
       <q-page-container id="container">

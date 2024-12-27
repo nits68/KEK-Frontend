@@ -271,6 +271,41 @@ export const useUsersStore = defineStore('usersStore', {
       }
     },
 
+    async editProfileById(): Promise<void> {
+      try {
+        if (this.actUser._id) {
+          const diff: IUser = {} as IUser;
+          Object.keys(this.actUser).forEach((k, i) => {
+            const newValue = Object.values(this.actUser)[i];
+            const oldValue = Object.values(this.oldUser)[i];
+            if (newValue != oldValue) diff[k] = newValue;
+          });
+          if (Object.keys(diff).length == 0) {
+            Notify.create({
+              message: 'Nothing changed!',
+              color: 'negative',
+            });
+          } else {
+            Loading.show();
+            const res = await api.patch(`/users/profile/${this.actUser._id}`, diff);
+            const editedUser: IUser = res.data as IUser;
+            if (editedUser?._id) {
+              Notify.create({
+                message: `User with id=${editedUser._id} profile has been edited successfully!`,
+                color: 'positive',
+              });
+              appStore.selectedUser = [];
+              appStore.selectedUser.push(res.data as IUser);
+            }
+          }
+        }
+      } catch (error) {
+        ShowErrorWithNotify(error);
+      } finally {
+        Loading.hide();
+      }
+    },
+
     async deleteUserById(): Promise<void> {
       try {
         if (this.actUser._id) {

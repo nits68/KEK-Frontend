@@ -10,8 +10,12 @@ const usersStore = useUsersStore();
 const appStore = useAppStore();
 // const router = useRouter();
 
-function ShowDialog() {
-  usersStore.getUserById();
+async function ShowDialog() {
+  if (usersStore.loggedUser) {
+    usersStore.actUser = { _id: usersStore.loggedUser._id } as IUser;
+    await usersStore.getUserById();
+    usersStore.actUser.password = '';
+  }
 }
 
 function HideDialog() {
@@ -26,8 +30,9 @@ function Submit() {
     persistent: true,
   })
     .onOk(async () => {
-      await usersStore.editUserById();
-      await usersStore.getAllUsers();
+      await usersStore.editProfileById();
+      await usersStore.getUserById();
+      usersStore.loggedUser = usersStore.actUser;
       // appStore.showEditUserDialog = false;
     })
     .onCancel(() => {
@@ -36,30 +41,26 @@ function Submit() {
     });
 }
 
-function Reset() {
-  usersStore.actUser = { ...usersStore.oldUser };
-}
-
 function Close() {
-  appStore.showEditUserDialog = false;
+  appStore.showProfileDialog = false;
 }
 </script>
 
 <template>
-  <q-dialog v-model="appStore.showEditUserDialog" persistent @hide="HideDialog()" @show="ShowDialog()">
+  <q-dialog v-model="appStore.showProfileDialog" persistent @hide="HideDialog()" @show="ShowDialog()">
     <q-card class="q-pa-sm" style="width: 60vw; min-width: 300px">
-      <q-form @reset="Reset()" @submit="Submit()">
+      <q-form @submit="Submit()">
         <div class="row">
-          <div v-if="usersStore.actUser._id" class="col-12">
-            <h5 class="text-center q-ma-sm">Edit user</h5>
+          <div v-if="usersStore.loggedUser" class="col-12 q-gutter-y-sm">
+            <h5 class="text-center q-ma-sm">Edit profile</h5>
 
             <q-input
               id="name"
               v-model="usersStore.actUser.name"
+              class="bg-green-2"
               dense
               filled
               label="name"
-              :rules="[(v) => (v != null && v != '') || 'Please fill in!']"
               type="text"
             />
 
@@ -67,9 +68,9 @@ function Close() {
               id="email"
               v-model="usersStore.actUser.email"
               dense
+              :disable="true"
               filled
               label="e-mail"
-              :rules="[(v) => (v != null && v != '') || 'Please fill in!']"
               type="text"
             />
 
@@ -78,16 +79,24 @@ function Close() {
                 id="email_verified"
                 v-model="usersStore.actUser.email_verified"
                 dense
+                :disable="true"
                 filled
                 label="e-mail verified"
               />
-              <q-checkbox id="auto_login" v-model="usersStore.actUser.auto_login" filled label="auto login" />
+              <q-checkbox
+                id="auto_login"
+                v-model="usersStore.actUser.auto_login"
+                color="green"
+                filled
+                keep-color
+                label="auto login"
+              />
             </div>
 
             <q-input
               id="password"
               v-model="usersStore.actUser.password"
-              class="q-mb-md"
+              class="bg-green-2"
               dense
               filled
               label="password"
@@ -97,10 +106,10 @@ function Close() {
             <q-input
               id="mobile_number"
               v-model="usersStore.actUser.mobile_number"
+              class="bg-green-2"
               dense
               filled
               label="mobile number"
-              :rules="[(v) => (v != null && v != '') || 'Please fill in!']"
               type="text"
             />
 
@@ -110,6 +119,7 @@ function Close() {
                 v-model="usersStore.actUser.roles"
                 color="primary"
                 dense
+                :disable="true"
                 :options="[
                   { label: 'User', value: 'user' },
                   { label: 'Small producer', value: 'sp' },
@@ -122,16 +132,15 @@ function Close() {
             <q-input
               id="picture"
               v-model="usersStore.actUser.picture"
+              class="bg-green-2"
               dense
               filled
               label="picture URL or monogram (2 chars)"
-              :rules="[(v) => (v != null && v != '') || 'Please fill in!']"
               type="text"
             />
 
             <div class="row justify-center q-mb-xl">
               <q-btn class="q-mr-md" color="green" label="Save" no-caps type="submit" />
-              <q-btn class="q-mr-md" color="red" label="Reset" no-caps type="reset" />
               <q-btn class="q-mr-md" color="blue" label="Close" no-caps @click="Close()" />
             </div>
             <!-- {{ usersStore.actUser }} -->

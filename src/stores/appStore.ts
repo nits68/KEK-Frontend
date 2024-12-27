@@ -6,6 +6,7 @@ import { type IUser } from './usersStore';
 // Interface for Application common data:
 export interface IState {
   showLoginDialog: boolean;
+  showProfileDialog: boolean;
   showEditUserDialog: boolean;
   showCreateUserDialog: boolean;
   usersFilter: string;
@@ -17,6 +18,7 @@ export const useAppStore = defineStore('appStore', {
   state: (): IState => ({
     usersFilter: '',
     showLoginDialog: false,
+    showProfileDialog: false,
     showEditUserDialog: false,
     showCreateUserDialog: false,
     currentYear: new Date().getFullYear(),
