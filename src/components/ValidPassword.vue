@@ -8,7 +8,7 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const emit = defineEmits<{
-  (e: 'password_changed', result: string | boolean): void;
+  (e: 'password_changed', result: boolean): void;
 }>();
 
 interface IMapData {
@@ -25,7 +25,7 @@ const r = reactive<IReactiveData>({
   check: new Map(),
 });
 
-function isValidPassword(pass: string): boolean | string {
+function isValidPassword(pass: string): boolean {
   r.check.set('length', {
     isOk: LoginHelper.IsLengthOk(pass),
     label: 'Length >= 8',
@@ -51,7 +51,7 @@ function isValidPassword(pass: string): boolean | string {
     label: 'Number(s)',
     test: 'QCheckBoxNumber', // use later
   });
-  if (pass.length == 0) return 'Please fill in!';
+  if (pass.length == 0) return false;
   return (r.check.get('length')?.isOk &&
     r.check.get('upper')?.isOk &&
     r.check.get('lower')?.isOk &&
@@ -72,6 +72,7 @@ watch(props, () => {
     :key="e[0]"
     v-model="e[1].isOk"
     checked-icon="star"
+    class="q-ma-none"
     :class="e[1].isOk ? 'text-green' : 'text-red'"
     :color="e[1].isOk ? 'green' : 'red'"
     :data-test="e[1].test"

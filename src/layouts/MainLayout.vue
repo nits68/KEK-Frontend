@@ -39,7 +39,7 @@ onMounted(() => {
             </q-avatar>
             KEK
           </q-toolbar-title>
-          <q-btn
+          <!-- <q-btn
             :class="{ active: router.currentRoute.value.path === '/' }"
             clickable
             flat
@@ -47,7 +47,7 @@ onMounted(() => {
             label="Home"
             no-caps
             to="/"
-          />
+          /> -->
 
           <q-toolbar-title class="my-title" />
 

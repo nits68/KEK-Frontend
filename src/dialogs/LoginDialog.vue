@@ -25,7 +25,7 @@ const anyLoggedUser = computed(() => (usersStore.getLoggedUser ? true : false));
 interface IReactiveData {
   email: string;
   password: string;
-  password_ok: string | boolean;
+  password_ok: boolean;
   isPwd: boolean;
 }
 
@@ -33,7 +33,7 @@ const r = reactive<IReactiveData>({
   email: props.email,
   password: props.password,
   password_ok: true,
-  isPwd: false,
+  isPwd: true,
 });
 
 watchEffect(() => (r.email = usersStore.loggedUser ? (usersStore.loggedUser.email as string) : props.email));
@@ -74,7 +74,7 @@ function dialogHide() {
   router.push('/');
 }
 
-function isValidPassword(result: string | boolean): void {
+function isValidPassword(result: boolean): void {
   r.password_ok = result;
 }
 
@@ -93,7 +93,7 @@ function loginRegisterGoogle() {
     @hide="dialogHide()"
     @show="dialogShow()"
   >
-    <q-card class="q-pa-xs" style="width: 100%">
+    <q-card style="width: 100%">
       <q-form>
         <div class="row flex-center">
           <div class="col-xs-12 col-sm-6">
@@ -116,7 +116,7 @@ function loginRegisterGoogle() {
                 data-test="QInputPassword"
                 filled
                 label="Password"
-                :rules="[() => r.password_ok]"
+                :rules="[(v) => (v != null && v != '') || 'Please fill in!', () => r.password_ok || 'See red rules!']"
                 :type="r.isPwd ? 'password' : 'text'"
               >
                 <template #append>
@@ -138,9 +138,9 @@ function loginRegisterGoogle() {
           </div>
         </div>
 
-        <q-card-actions align="center" class="text-primary">
+        <q-card-actions align="center" class="text-primary q-mb-xl">
           <q-btn
-            class="shadow-10 q-mr-md"
+            class="shadow-10 q-mr-sm"
             color="green"
             data-test="btnLoginLogoutDialog"
             :label="anyLoggedUser ? 'Logout' : 'Login'"
@@ -148,11 +148,13 @@ function loginRegisterGoogle() {
             type="button"
             @click="LogInOut()"
           />
+
           <q-btn
             v-if="!anyLoggedUser"
-            class="shadow-10 q-mr-md"
+            class="shadow-10 q-mr-sm"
             color="red"
             data-test="btnRegister"
+            :disable="!r.password_ok"
             label="Register"
             no-caps
             type="button"
@@ -161,13 +163,14 @@ function loginRegisterGoogle() {
 
           <q-btn
             v-if="!anyLoggedUser"
-            class="shadow-10 q-mr-md"
+            class="shadow-10 q-mr-sm"
             color="blue"
             data-test="btnGoogle"
-            label="Login/Register with Google"
+            label="Google"
             no-caps
             @click="loginRegisterGoogle()"
           />
+
           <q-btn
             class="shadow-10"
             color="red"
