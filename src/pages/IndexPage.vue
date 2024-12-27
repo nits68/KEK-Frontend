@@ -8,8 +8,8 @@ import { onMounted } from 'vue';
 const usersStore = useUsersStore();
 // const router = useRouter();
 
-const google =  process.env.VITE_VUE_APP_CLIENT_ID;
-const backendUrl = process.env.BACKEND_URL;
+const google =  import.meta.env.VITE_VUE_APP_CLIENT_ID;
+const backendUrl = import.meta.env.VITE_VUE_APP_BACKEND_URL;
 
 onMounted(() => {
   // s.ManyGetAll();
