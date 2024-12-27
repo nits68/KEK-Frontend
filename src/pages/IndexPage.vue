@@ -20,9 +20,9 @@ onMounted(() => {
 <template>
   <q-page class="column flex-center">
     <p>{{ usersStore.loggedUser?.email }}</p>
-    <p>{{ google }}</p>
-    <p>{{ google2 }}</p>
-    <p>{{ baseUrl }}</p>
+    <p>Google 1{{ google }}</p>
+    <p>Google 2{{ google2 }}</p>
+    <p>Base URL:{{ baseUrl }}</p>
   </q-page>
 </template>
 
