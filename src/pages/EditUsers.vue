@@ -184,14 +184,6 @@ function selectRow(evt: Event, user: IUser): void {
           no-caps
           @click="editUser()"
         />
-        <q-btn
-          class="q-ml-md"
-          color="green"
-          :disable="appStore.selectedUser.length == 0"
-          label="Clear selection"
-          no-caps
-          @click="appStore.selectedUser = []"
-        />
       </div>
     </div>
     <!-- {{ appStore.selectedUser }} -->
