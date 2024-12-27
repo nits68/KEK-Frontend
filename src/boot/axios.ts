@@ -14,7 +14,8 @@ declare module 'vue' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: import.meta.env.BASE_URL || 'https://api.example.com' });
+// const api = axios.create({ baseURL: import.meta.env.BASE_URL || 'https://api.example.com' });
+const api = axios.create({ baseURL: 'https://rigid-pearline-nits-b71ca532.koyeb.app' });
 
 api.defaults.withCredentials = true;
 
