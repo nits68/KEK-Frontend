@@ -11,6 +11,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('../pages/EditUsers.vue') }],
   },
+  {
+    path: '/editcategories',
+    component: () => import('../layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('../pages/EditCategories.vue') }],
+  },
 
   // Always leave this as last one,
   // but you can also remove it

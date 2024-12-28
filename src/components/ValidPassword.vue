@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
-import LoginHelper from '../dialogs/LoginHelper';
+import LoginHelper from '../dialogs/users/LoginHelper';
 
 interface IProps {
   password: string;

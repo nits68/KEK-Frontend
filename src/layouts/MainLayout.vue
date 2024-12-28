@@ -5,8 +5,8 @@ import { ref } from 'vue';
 import { useAppStore } from '../stores/appStore';
 import { useUsersStore } from '../stores/usersStore';
 import { useRouter } from 'vue-router';
-import LoginDialog from '../dialogs/LoginDialog.vue';
-import ProfileDialog from '../dialogs/ProfileDialog.vue';
+import LoginDialog from '../dialogs/users/LoginDialog.vue';
+import ProfileDialog from '../dialogs/users/ProfileDialog.vue';
 
 import { onMounted } from 'vue';
 
@@ -124,6 +124,16 @@ onMounted(() => {
             label="Edit users"
             no-caps
             to="/editusers"
+          />
+          <q-btn
+            align="left"
+            class="full-width q-ma-xs"
+            :class="{ active: router.currentRoute.value.path === '/editcategories' }"
+            flat
+            icon="mdi-table"
+            label="Edit categories"
+            no-caps
+            to="/editcategories"
           />
         </q-scroll-area>
       </q-drawer>

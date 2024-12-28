@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, reactive, watchEffect } from 'vue';
-import { useUsersStore } from '../stores/usersStore';
-import { useAppStore } from '../stores/appStore';
+import { useUsersStore } from '../../stores/usersStore';
+import { useAppStore } from '../../stores/appStore';
 import LoginHelper from './LoginHelper';
-import ValidPassword from '../components/ValidPassword.vue';
+import ValidPassword from '../../components/ValidPassword.vue';
 import { googleTokenLogin, type CallbackTypes } from 'vue3-google-login';
 import { useRouter } from 'vue-router';
 

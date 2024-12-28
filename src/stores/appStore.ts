@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { type IUser } from './usersStore';
+import { type ICategory } from './categoriesStore';
 
 // Convert JSON document to TS Interface quickly: https://transform.tools/json-to-typescript
 
@@ -9,9 +10,12 @@ export interface IState {
   showProfileDialog: boolean;
   showEditUserDialog: boolean;
   showCreateUserDialog: boolean;
+  showEditCategoryDialog: boolean;
+  showCreateCategoryDialog: boolean;
   usersFilter: string;
   currentYear: number;
   selectedUser: Array<IUser>;
+  selectedCategory: Array<ICategory>;
 }
 
 export const useAppStore = defineStore('appStore', {
@@ -21,8 +25,11 @@ export const useAppStore = defineStore('appStore', {
     showProfileDialog: false,
     showEditUserDialog: false,
     showCreateUserDialog: false,
+    showEditCategoryDialog: false,
+    showCreateCategoryDialog: false,
     currentYear: new Date().getFullYear(),
     selectedUser: [] as Array<IUser>,
+    selectedCategory: [] as Array<ICategory>,
   }),
   // getters: {},
   actions: {},

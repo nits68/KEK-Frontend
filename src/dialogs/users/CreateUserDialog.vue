@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Dialog } from 'quasar';
-import { useAppStore } from '../stores/appStore';
-import type { IUser } from '../stores/usersStore';
-import { useUsersStore } from '../stores/usersStore';
+import { useAppStore } from '../../stores/appStore';
+import type { IUser } from '../../stores/usersStore';
+import { useUsersStore } from '../../stores/usersStore';
 // import { onMounted } from 'vue';
 // import { useRouter } from 'vue-router';
 
@@ -36,7 +36,7 @@ function Submit() {
     persistent: true,
   })
     .onOk(async () => {
-      await usersStore.crateUser();
+      await usersStore.createUser();
       await usersStore.getAllUsers();
       //   appStore.showCreateUserDialog = false;
     })

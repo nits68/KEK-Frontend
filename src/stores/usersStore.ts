@@ -330,7 +330,7 @@ export const useUsersStore = defineStore('usersStore', {
       }
     },
 
-    async crateUser(): Promise<void> {
+    async createUser(): Promise<void> {
       try {
         Loading.show();
         const res = await api.post('/users', this.actUser);

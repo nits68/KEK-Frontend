@@ -4,8 +4,8 @@ import { useUsersStore, type IUser } from '../stores/usersStore';
 import { onMounted } from 'vue';
 import { useAppStore } from '../stores/appStore';
 // import { ref } from 'vue';
-import EditUserDialog from '../dialogs/EditUserDialog.vue';
-import CreateUserDialog from '../dialogs/CreateUserDialog.vue';
+import EditUserDialog from '../dialogs/users/EditUserDialog.vue';
+import CreateUserDialog from '../dialogs/users/CreateUserDialog.vue';
 // import { type QTableColumn } from 'quasar';
 
 const usersStore = useUsersStore();
@@ -178,7 +178,7 @@ function selectRow(evt: Event, user: IUser): void {
         <q-btn class="q-ml-md" color="green" label="New" no-caps @click="createUser()" />
         <q-btn
           class="q-ml-md"
-          color="red"
+          color="primary"
           :disable="appStore.selectedUser.length != 1"
           label="Edit"
           no-caps
