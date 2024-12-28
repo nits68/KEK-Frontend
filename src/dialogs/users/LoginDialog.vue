@@ -6,6 +6,7 @@ import LoginHelper from './LoginHelper';
 import ValidPassword from '../../components/ValidPassword.vue';
 import { googleTokenLogin, type CallbackTypes } from 'vue3-google-login';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 interface IProps {
   email?: string;
@@ -19,6 +20,8 @@ const props = withDefaults(defineProps<IProps>(), {
 const usersStore = useUsersStore();
 const appStore = useAppStore();
 const router = useRouter();
+
+const { t } = useI18n();
 
 const anyLoggedUser = computed(() => (usersStore.getLoggedUser ? true : false));
 
@@ -103,7 +106,7 @@ function loginRegisterGoogle() {
                 data-test="QInputEmail"
                 :disable="anyLoggedUser"
                 filled
-                label="E-mail address"
+                :label="`E-mail ${t('address')}`"
                 :rules="[(v) => (v != null && v != '') || 'Please fill in!', isValidEmail]"
                 type="text"
               />
@@ -115,7 +118,7 @@ function loginRegisterGoogle() {
                 autocomplete="on"
                 data-test="QInputPassword"
                 filled
-                label="Password"
+                :label="t('password')"
                 :rules="[(v) => (v != null && v != '') || 'Please fill in!', () => r.password_ok || 'See red rules!']"
                 :type="r.isPwd ? 'password' : 'text'"
               >
@@ -143,7 +146,7 @@ function loginRegisterGoogle() {
             class="shadow-10 q-mr-sm"
             color="green"
             data-test="btnLoginLogoutDialog"
-            :label="anyLoggedUser ? 'Logout' : 'Login'"
+            :label="anyLoggedUser ? t('logout') : t('login')"
             no-caps
             type="button"
             @click="LogInOut()"
@@ -155,7 +158,7 @@ function loginRegisterGoogle() {
             color="red"
             data-test="btnRegister"
             :disable="!r.password_ok"
-            label="Register"
+            :label="t('registration')"
             no-caps
             type="button"
             @click="Register()"
@@ -175,7 +178,7 @@ function loginRegisterGoogle() {
             class="shadow-10"
             color="red"
             data-test="btnClose"
-            label="Close"
+            :label="t('close')"
             no-caps
             type="button"
             @click="appStore.showLoginDialog = false"

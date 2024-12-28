@@ -7,17 +7,28 @@ import { useUsersStore } from '../stores/usersStore';
 import { useRouter } from 'vue-router';
 import LoginDialog from '../dialogs/users/LoginDialog.vue';
 import ProfileDialog from '../dialogs/users/ProfileDialog.vue';
+import { useI18n } from 'vue-i18n';
 
 import { onMounted } from 'vue';
+import { useQuasar } from 'quasar';
 
 const appStore = useAppStore();
 const usersStore = useUsersStore();
 const router = useRouter();
+const $q = useQuasar();
 
 const showMenuBar = ref(true);
-const showLeftDrawer = ref(true);
-const showRightDrawer = ref(true);
-const showStatusBar = ref(true);
+const showLeftDrawer = ref(!$q.platform.is.mobile);
+const showRightDrawer = ref(!$q.platform.is.mobile);
+const showStatusBar = ref(!$q.platform.is.mobile);
+
+const { t } = useI18n();
+const { locale } = useI18n({ useScope: 'global' });
+locale.value = 'hu'; // set the default language
+
+function toggleLanguage() {
+  locale.value = locale.value == 'hu' ? 'en' : 'hu';
+}
 
 onMounted(() => {
   if (!usersStore.loggedUser) {
@@ -58,7 +69,7 @@ onMounted(() => {
             clickable
             flat
             icon="mdi-login"
-            :label="usersStore.loggedUser ? 'Logout' : 'Login/Register'"
+            :label="usersStore.loggedUser ? t('logout') : `${t('login')}/${t('registration')}`"
             no-caps
             @click="appStore.showLoginDialog = true"
           />
@@ -85,6 +96,11 @@ onMounted(() => {
             </q-avatar>
           </q-btn>
 
+          <q-btn flat icon="mdi-comment-text-multiple" @click="toggleLanguage">
+            <q-badge color="red" floating :label="locale" />
+          </q-btn>
+          <q-btn flat icon="mdi-theme-light-dark" @click="$q.dark.toggle" />
+
           <q-btn
             v-if="usersStore.isAdmin"
             dense
@@ -97,9 +113,17 @@ onMounted(() => {
       </q-header>
 
       <!-- Left drawer: -->
-      <q-drawer v-if="usersStore.isSp" v-model="showLeftDrawer" bordered :breakpoint="600" :width="200">
-        <q-scroll-area class="fit bg-blue-1">
-          <div class="q-ma-sm text-center">Small producer's drawer!</div>
+      <q-drawer
+        v-if="usersStore.isSp"
+        v-model="showLeftDrawer"
+        bordered
+        :breakpoint="500"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
+        show-if-above
+        :width="200"
+      >
+        <q-scroll-area class="fit">
+          <div class="q-ma-sm text-center">User's drawer!</div>
         </q-scroll-area>
       </q-drawer>
 
@@ -109,11 +133,13 @@ onMounted(() => {
         v-model="showRightDrawer"
         bordered
         :breakpoint="800"
-        class="bg-blue-1"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
+        show-if-above
         side="right"
         :width="200"
       >
         <q-scroll-area class="fit">
+          <div class="q-ma-sm text-center">Small producer's drawer!</div>
           <div class="q-ma-sm text-center">Admin's drawer!</div>
           <q-btn
             align="left"
@@ -121,7 +147,7 @@ onMounted(() => {
             :class="{ active: router.currentRoute.value.path === '/editusers' }"
             flat
             icon="mdi-table"
-            label="Edit users"
+            :label="t('edit_users')"
             no-caps
             to="/editusers"
           />
@@ -131,7 +157,7 @@ onMounted(() => {
             :class="{ active: router.currentRoute.value.path === '/editcategories' }"
             flat
             icon="mdi-table"
-            label="Edit categories"
+            :label="t('edit_categories')"
             no-caps
             to="/editcategories"
           />

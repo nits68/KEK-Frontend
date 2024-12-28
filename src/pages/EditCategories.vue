@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Dialog, type QTableColumn } from 'quasar';
+import { Dialog, useQuasar, type QTableColumn } from 'quasar';
 import { useUsersStore } from '../stores/usersStore';
 import { onMounted } from 'vue';
 import { useAppStore } from '../stores/appStore';
@@ -10,6 +10,7 @@ import EditCategoryDialog from '../dialogs/categories/EditCategoryDialog.vue';
 const usersStore = useUsersStore();
 const appStore = useAppStore();
 const categoriesStore = useCategoriesStore();
+const $q = useQuasar();
 
 onMounted(() => {
   if (!usersStore.isAdmin) {
@@ -70,8 +71,12 @@ function selectRow(evt: Event, category: ICategory): void {
   if (appStore.selectedCategory.length == 0) {
     appStore.selectedCategory.push(category);
   } else {
-    appStore.selectedCategory = [];
-    appStore.selectedCategory.push(category);
+    if (appStore.selectedCategory.at(0)!._id == category._id) {
+      appStore.selectedCategory = [];
+    } else {
+      appStore.selectedCategory = [];
+      appStore.selectedCategory.push(category);
+    }
   }
 }
 </script>
@@ -86,7 +91,7 @@ function selectRow(evt: Event, category: ICategory): void {
         dense
         row-key="_id"
         :rows="categoriesStore.categories"
-        :rows-per-page-options="[20, 30, 40, 0]"
+        :rows-per-page-options = "$q.platform.is.mobile ? [5, 10, 15, 0] :  [20, 25, 30, 0]"
         selection="single"
         title="Edit categories"
         wrap-cells

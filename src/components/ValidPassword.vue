@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
 import LoginHelper from '../dialogs/users/LoginHelper';
+import { useI18n } from 'vue-i18n';
 
 interface IProps {
   password: string;
 }
 const props = defineProps<IProps>();
+
+const { t } = useI18n();
 
 const emit = defineEmits<{
   (e: 'password_changed', result: boolean): void;
@@ -28,27 +31,27 @@ const r = reactive<IReactiveData>({
 function isValidPassword(pass: string): boolean {
   r.check.set('length', {
     isOk: LoginHelper.IsLengthOk(pass),
-    label: 'Length >= 8',
+    label: `${t('length')} >= 8`,
     test: 'QCheckBoxLength', // use later
   });
   r.check.set('upper', {
     isOk: LoginHelper.IsAnyUppercaseChar(pass),
-    label: 'Uppercase char(s)',
+    label: t('uppercase_chars'),
     test: 'QCheckBoxUpper', // use later
   });
   r.check.set('lower', {
     isOk: LoginHelper.IsAnyLowercaseChar(pass),
-    label: 'Lowercase char(s)',
+    label: t('lowercase_chars'),
     test: 'QCheckBoxLower', // use later
   });
   r.check.set('special', {
     isOk: LoginHelper.IsAnySpecialChar(pass),
-    label: 'Special char(s)',
+    label: t('special_chars'),
     test: 'QCheckBoxSpecial', // use later
   });
   r.check.set('number', {
     isOk: LoginHelper.IsAnyNumber(pass),
-    label: 'Number(s)',
+    label: t('numbers'),
     test: 'QCheckBoxNumber', // use later
   });
   if (pass.length == 0) return false;

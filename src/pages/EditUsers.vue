@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Dialog, type QTableColumn } from 'quasar';
+import { Dialog, useQuasar, type QTableColumn } from 'quasar';
 import { useUsersStore, type IUser } from '../stores/usersStore';
 import { onMounted } from 'vue';
 import { useAppStore } from '../stores/appStore';
@@ -10,6 +10,7 @@ import CreateUserDialog from '../dialogs/users/CreateUserDialog.vue';
 
 const usersStore = useUsersStore();
 const appStore = useAppStore();
+const $q = useQuasar();
 
 onMounted(() => {
   if (!usersStore.isAdmin) {
@@ -135,16 +136,17 @@ const columns: QTableColumn[] = [
 // Select row(s) in quasar q-table
 function selectRow(evt: Event, user: IUser): void {
   if (appStore.selectedUser.length == 0) {
-    appStore.selectedUser.push(user); 
-  } else {
-    appStore.selectedUser = [];
     appStore.selectedUser.push(user);
+  } else {
+    if (appStore.selectedUser.at(0)!._id == user._id) {
+      appStore.selectedUser = [];
+    } else {
+      appStore.selectedUser = [];
+      appStore.selectedUser.push(user);
+    }
   }
 }
-
 </script>
-
-
 
 <template>
   <q-page v-if="usersStore.isAdmin">
@@ -165,7 +167,7 @@ function selectRow(evt: Event, user: IUser): void {
         dense
         row-key="_id"
         :rows="usersStore.users"
-        :rows-per-page-options="[10, 20, 30, 0]"
+        :rows-per-page-options="$q.platform.is.mobile ? [5, 10, 15, 0] : [20, 25, 30, 0]"
         selection="single"
         title="Edit users"
         wrap-cells

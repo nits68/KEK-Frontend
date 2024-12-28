@@ -1,0 +1,15 @@
+export default {
+  logout: 'Logout',
+  login: 'Login',
+  registration: 'Registration',
+  close: 'Close',
+  address: 'address',
+  password: 'Password',
+  length: 'Length',
+  uppercase_chars: 'Uppercase char(s)',
+  lowercase_chars: 'Lowercase char(s)',
+  special_chars: 'Special char(s)',
+  numbers: 'Number(s)',
+  edit_users: 'Edit users',
+  edit_categories: 'Edit categories',
+}
