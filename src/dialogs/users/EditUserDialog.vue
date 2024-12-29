@@ -10,8 +10,8 @@ const usersStore = useUsersStore();
 const appStore = useAppStore();
 // const router = useRouter();
 
-function ShowDialog() {
-  usersStore.getUserById();
+async function ShowDialog() {
+  await usersStore.getUserById();
 }
 
 function HideDialog() {

@@ -6,11 +6,13 @@ import { useAppStore } from '../stores/appStore';
 import { useCategoriesStore, type ICategory } from '../stores/categoriesStore';
 import CreateCategoryDialog from '../dialogs/categories/CreateCategoryDialog.vue';
 import EditCategoryDialog from '../dialogs/categories/EditCategoryDialog.vue';
+import { useI18n } from 'vue-i18n';
 
 const usersStore = useUsersStore();
 const appStore = useAppStore();
 const categoriesStore = useCategoriesStore();
 const $q = useQuasar();
+const { t } = useI18n();
 
 onMounted(() => {
   if (!usersStore.isAdmin) {
@@ -93,7 +95,7 @@ function selectRow(evt: Event, category: ICategory): void {
         :rows="categoriesStore.categories"
         :rows-per-page-options = "$q.platform.is.mobile ? [5, 10, 15, 0] :  [20, 25, 30, 0]"
         selection="single"
-        title="Edit categories"
+        :title="t('edit_categories')"
         wrap-cells
         @row-click="selectRow"
       />
@@ -103,16 +105,16 @@ function selectRow(evt: Event, category: ICategory): void {
         <q-btn
           color="red"
           :disable="appStore.selectedCategory.length != 1"
-          label="Delete"
+          :label="t('delete')"
           no-caps
           @click="deleteCategory()"
         />
-        <q-btn class="q-ml-md" color="green" label="New" no-caps @click="createCategory()" />
+        <q-btn class="q-ml-md" color="green" :label="t('new')" no-caps @click="createCategory()" />
         <q-btn
           class="q-ml-md"
           color="primary"
           :disable="appStore.selectedCategory.length != 1"
-          label="Edit"
+          :label="t('edit')"
           no-caps
           @click="editCategory()"
         />

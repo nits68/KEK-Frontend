@@ -12,4 +12,8 @@ export default {
   numbers: 'Number(s)',
   edit_users: 'Edit users',
   edit_categories: 'Edit categories',
+  edit_products: 'Edit products',
+  delete: 'Delete',
+  new: 'New',
+  edit: 'Edit',
 }

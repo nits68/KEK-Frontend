@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { Notify, Loading } from 'quasar';
 import { api } from '../boot/axios';
 import { useAppStore } from './appStore';
+import { type ICategory } from './categoriesStore';
 
 const appStore = useAppStore();
 
@@ -12,38 +13,40 @@ Notify.setDefaults({
   actions: [{ icon: 'close', color: 'white' }],
 });
 
-export interface ICategory {
+export interface IProduct {
   _id?: string;
-  main_category?: string;
-  category_name?: string;
+  product_name?: string;
+  picture_url?: string;
+  category_id?: string;
+  category?: ICategory;
 }
 
 interface IState {
   isLoading: boolean;
-  categories: ICategory[];
-  actCategory: ICategory;
-  oldCategory: ICategory;
+  products: IProduct[];
+  actProduct: IProduct;
+  oldProduct: IProduct;
 }
 
-export const useCategoriesStore = defineStore('categoriesStore', {
+export const useProductsStore = defineStore('productsStore', {
   state: (): IState => ({
     isLoading: false,
-    categories: [],
-    actCategory: {} as ICategory,
-    oldCategory: {} as ICategory,
+    products: [],
+    actProduct: {} as IProduct,
+    oldProduct: {} as IProduct,
   }),
 
   getters: {},
 
   actions: {
-    async getAllCategories(): Promise<void> {
+    async getAllProducts(): Promise<void> {
       Loading.show();
       this.isLoading = true;
       try {
-        this.categories = [];
-        const res = await api.get('/categories');
+        this.products = [];
+        const res = await api.get('/products');
         if (res?.data) {
-          this.categories = res.data;
+          this.products = res.data;
         }
       } catch (error: any) {
         ShowErrorWithNotify(error);
@@ -53,15 +56,15 @@ export const useCategoriesStore = defineStore('categoriesStore', {
       }
     },
 
-    async getCategoryById(): Promise<void> {
+    async getProductById(): Promise<void> {
       try {
         Loading.show();
-        if (this.actCategory?._id) {
-          const res = await api.get(`/categories/${this.actCategory._id}`);
+        if (this.actProduct._id) {
+          const res = await api.get(`/products/${this.actProduct._id}`);
           if (res?.data) {
-            this.actCategory = res.data;
+            this.actProduct = res.data;
             // store startig data to PATCH method and Reset button:
-            Object.assign(this.oldCategory, this.actCategory);
+            Object.assign(this.oldProduct, this.actProduct);
           }
         }
       } catch (error) {
@@ -71,13 +74,30 @@ export const useCategoriesStore = defineStore('categoriesStore', {
       }
     },
 
-    async editCategoryById(): Promise<void> {
+    async getProductsByFilter(): Promise<void> {
       try {
-        if (this.actCategory._id) {
-          const diff: ICategory = {} as ICategory;
-          Object.keys(this.actCategory).forEach((k, i) => {
-            const newValue = Object.values(this.actCategory)[i];
-            const oldValue = Object.values(this.oldCategory)[i];
+        if (appStore.productsFilter) {
+          this.products = [];
+          Loading.show();
+          const res = await api.get(`/products/keyword/${appStore.productsFilter}`);
+          if (res?.data) {
+            this.products = res.data;
+          }
+        }
+      } catch (error) {
+        ShowErrorWithNotify(error);
+      } finally {
+        Loading.hide();
+      }
+    },
+
+    async editProductById(): Promise<void> {
+      try {
+        if (this.actProduct._id) {
+          const diff: IProduct = {} as IProduct;
+          Object.keys(this.actProduct).forEach((k, i) => {
+            const newValue = Object.values(this.actProduct)[i];
+            const oldValue = Object.values(this.oldProduct)[i];
             if (newValue != oldValue) diff[k] = newValue;
           });
           if (Object.keys(diff).length == 0) {
@@ -87,15 +107,15 @@ export const useCategoriesStore = defineStore('categoriesStore', {
             });
           } else {
             Loading.show();
-            const res = await api.patch(`/categories/${this.actCategory._id}`, diff);
-            const editedCategory: ICategory = res.data as ICategory;
-            if (editedCategory?._id) {
+            const res = await api.patch(`/products/${this.actProduct._id}`, diff);
+            const editedProduct: IProduct = res.data as IProduct;
+            if (editedProduct?._id) {
               Notify.create({
-                message: `Category with id=${editedCategory._id} has been edited successfully!`,
+                message: `Product with id=${editedProduct._id} has been edited successfully!`,
                 color: 'positive',
               });
-              appStore.selectedUser = [];
-              appStore.selectedUser.push(res.data as ICategory);
+              appStore.selectedProduct = [];
+              appStore.selectedProduct.push(res.data as IProduct);
             }
           }
         }
@@ -106,13 +126,13 @@ export const useCategoriesStore = defineStore('categoriesStore', {
       }
     },
 
-    async deleteCategoryById(): Promise<void> {
+    async deleteProductById(): Promise<void> {
       try {
-        if (this.actCategory._id) {
+        if (this.actProduct._id) {
           Loading.show();
-          await api.delete(`/categories/${this.actCategory._id}`);
+          await api.delete(`/products/${this.actProduct._id}`);
           Notify.create({
-            message: `Category with id=${this.actCategory._id} has been deleted successfully!`,
+            message: `Product with id=${this.actProduct._id} has been deleted successfully!`,
             color: 'positive',
           });
         }
@@ -123,14 +143,14 @@ export const useCategoriesStore = defineStore('categoriesStore', {
       }
     },
 
-    async createCategory(): Promise<void> {
+    async createProduct(): Promise<void> {
       try {
         Loading.show();
-        const res = await api.post('/categories', this.actCategory);
-        const newCategory: ICategory = res.data as ICategory;
-        if (newCategory._id) {
+        const res = await api.post('/products', this.actProduct);
+        const newProduct: IProduct = res.data as IProduct;
+        if (newProduct._id) {
           Notify.create({
-            message: `New category with id=${newCategory._id} has been saved successfully!`,
+            message: `New product with id=${newProduct._id} has been saved successfully!`,
             color: 'positive',
           });
         }

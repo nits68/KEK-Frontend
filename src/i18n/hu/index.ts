@@ -12,4 +12,8 @@ export default {
   numbers: 'Szám(ok)',
   edit_users: 'Felhasználók szerk.',
   edit_categories: 'Kategóriák szerk.',
+  edit_products: 'Termékek szerk.',
+  delete: 'Törlés',
+  new: 'Új',
+  edit: 'Szerkesztés',
 };

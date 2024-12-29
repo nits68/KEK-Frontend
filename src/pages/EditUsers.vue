@@ -6,19 +6,18 @@ import { useAppStore } from '../stores/appStore';
 // import { ref } from 'vue';
 import EditUserDialog from '../dialogs/users/EditUserDialog.vue';
 import CreateUserDialog from '../dialogs/users/CreateUserDialog.vue';
-// import { type QTableColumn } from 'quasar';
+import { useI18n } from 'vue-i18n';
 
 const usersStore = useUsersStore();
 const appStore = useAppStore();
 const $q = useQuasar();
+const { t } = useI18n();
 
 onMounted(() => {
   if (!usersStore.isAdmin) {
     return;
   }
   usersStore.getAllUsers();
-  appStore.showEditUserDialog = false;
-  appStore.showCreateUserDialog = false;
 });
 
 // Selected row(s) -> selection="single" or selection="multiple"
@@ -169,20 +168,20 @@ function selectRow(evt: Event, user: IUser): void {
         :rows="usersStore.users"
         :rows-per-page-options="$q.platform.is.mobile ? [5, 10, 15, 0] : [20, 25, 30, 0]"
         selection="single"
-        title="Edit users"
+        :title="t('edit_users')"
         wrap-cells
         @row-click="selectRow"
       />
 
       <!-- Button for delete selected record: -->
       <div class="row justify-center q-ma-md">
-        <q-btn color="red" :disable="appStore.selectedUser.length != 1" label="Delete" no-caps @click="deleteUser()" />
-        <q-btn class="q-ml-md" color="green" label="New" no-caps @click="createUser()" />
+        <q-btn color="red" :disable="appStore.selectedUser.length != 1" :label="t('delete')" no-caps @click="deleteUser()" />
+        <q-btn class="q-ml-md" color="green" :label="t('new')" no-caps @click="createUser()" />
         <q-btn
           class="q-ml-md"
           color="primary"
           :disable="appStore.selectedUser.length != 1"
-          label="Edit"
+          :label="t('edit')"
           no-caps
           @click="editUser()"
         />

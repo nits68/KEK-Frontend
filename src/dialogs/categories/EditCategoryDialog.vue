@@ -11,8 +11,8 @@ const appStore = useAppStore();
 const categoriesStore = useCategoriesStore();
 // const router = useRouter();
 
-function ShowDialog() {
-  categoriesStore.getCategoryById();
+async function ShowDialog() {
+  await categoriesStore.getCategoryById();
 }
 
 function HideDialog() {
