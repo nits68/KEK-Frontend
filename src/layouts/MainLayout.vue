@@ -45,9 +45,16 @@ onMounted(() => {
       <q-header v-model="showMenuBar" class="text-left bg-blue-5" elevated reveal>
         <!-- Menu bar: -->
         <q-toolbar>
-          <q-btn v-if="usersStore.isSp" dense flat icon="mdi-menu" round @click="showLeftDrawer = !showLeftDrawer" />
+          <q-btn
+            v-if="usersStore.isUser && !$q.platform.is.mobile"
+            dense
+            flat
+            icon="mdi-menu"
+            round
+            @click="showLeftDrawer = !showLeftDrawer"
+          />
           <q-toolbar-title class="my-title" :shrink="true" style="cursor: pointer" @click="router.push({ path: '/' })">
-            <q-avatar>
+            <q-avatar v-if="!$q.platform.is.mobile">
               <img src="../assets/Jedlik_small.png" />
             </q-avatar>
             KEK
@@ -102,7 +109,7 @@ onMounted(() => {
           <q-btn flat icon="mdi-theme-light-dark" @click="$q.dark.toggle" />
 
           <q-btn
-            v-if="usersStore.isAdmin"
+            v-if="(usersStore.isSp || usersStore.isAdmin) && !$q.platform.is.mobile"
             dense
             flat
             icon="mdi-menu"

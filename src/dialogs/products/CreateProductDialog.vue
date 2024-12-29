@@ -114,7 +114,7 @@ function filterFn(val: string, update: any): void {
               v-model="productsStore.actProduct.picture_url"
               dense
               filled
-              label="picture URL (optimal 150x150)"
+              label="picture URL (optimal 300x300)"
               :rules="[(v) => (v != null && v != '') || 'Please fill in!']"
               type="text"
             />
