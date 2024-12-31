@@ -13,6 +13,7 @@ export default {
   edit_users: 'Felhasználók szerk.',
   edit_categories: 'Kategóriák szerk.',
   edit_products: 'Termékek szerk.',
+  edit_offers: 'Ajánlatok szerk',
   delete: 'Törlés',
   new: 'Új',
   edit: 'Szerkesztés',

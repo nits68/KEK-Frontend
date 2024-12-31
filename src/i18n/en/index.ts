@@ -13,6 +13,7 @@ export default {
   edit_users: 'Edit users',
   edit_categories: 'Edit categories',
   edit_products: 'Edit products',
+  edit_offers: 'Edit offers',
   delete: 'Delete',
   new: 'New',
   edit: 'Edit',

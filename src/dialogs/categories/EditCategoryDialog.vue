@@ -41,12 +41,12 @@ function Reset() {
 }
 
 function Close() {
-  appStore.showEditCategoryDialog = false;
+  appStore.showEditCategoriesDialog = false;
 }
 </script>
 
 <template>
-  <q-dialog v-model="appStore.showEditCategoryDialog" persistent @hide="HideDialog()" @show="ShowDialog()">
+  <q-dialog v-model="appStore.showEditCategoriesDialog" persistent @hide="HideDialog()" @show="ShowDialog()">
     <q-card class="q-pa-sm" style="width: 60vw; min-width: 300px">
       <q-form @reset="Reset()" @submit="Submit()">
         <div class="row">

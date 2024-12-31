@@ -51,7 +51,7 @@ async function editProduct(): Promise<void> {
 }
 
 async function createProduct(): Promise<void> {
-  appStore.showCreateProductsDialog = true;
+  appStore.showCreateProductDialog = true;
   // s.many.document = { id: selected.value[0].id };
   // usersStore.document = { id: s.app.selected[0].id } as IMany;
   // await s.ManyDeleteById();

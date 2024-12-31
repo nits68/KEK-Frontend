@@ -179,6 +179,16 @@ onMounted(() => {
             no-caps
             to="/editproducts"
           />
+          <q-btn
+            align="left"
+            class="full-width q-ma-xs"
+            :class="{ active: router.currentRoute.value.path === '/editoffers' }"
+            flat
+            icon="mdi-table"
+            :label="t('edit_offers')"
+            no-caps
+            to="/editoffers"
+          />
         </q-scroll-area>
       </q-drawer>
 

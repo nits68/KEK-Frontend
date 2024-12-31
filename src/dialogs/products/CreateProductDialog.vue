@@ -47,7 +47,7 @@ function Reset() {
 }
 
 function Close() {
-  appStore.showCreateProductsDialog = false;
+  appStore.showCreateProductDialog = false;
 }
 
 function filterFn(val: string, update: any): void {
@@ -65,7 +65,7 @@ function filterFn(val: string, update: any): void {
 </script>
 
 <template>
-  <q-dialog v-model="appStore.showCreateProductsDialog" persistent @hide="HideDialog()" @show="ShowDialog()">
+  <q-dialog v-model="appStore.showCreateProductDialog" persistent @hide="HideDialog()" @show="ShowDialog()">
     <q-card class="q-pa-sm" style="width: 60vw; min-width: 300px">
       <q-form @reset="Reset()" @submit="Submit()">
         <div class="row">

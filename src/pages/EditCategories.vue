@@ -19,7 +19,7 @@ onMounted(() => {
     return;
   }
   appStore.showCreateCategoryDialog = false;
-  appStore.showEditCategoryDialog = false;
+  appStore.showEditCategoriesDialog = false;
   categoriesStore.getAllCategories();
 });
 
@@ -43,7 +43,7 @@ async function deleteCategory(): Promise<void> {
 
 async function editCategory(): Promise<void> {
   categoriesStore.actCategory = { _id: appStore.selectedCategory.at(0)?._id } as ICategory;
-  appStore.showEditCategoryDialog = true;
+  appStore.showEditCategoriesDialog = true;
 }
 
 async function createCategory(): Promise<void> {
