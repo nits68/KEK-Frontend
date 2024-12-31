@@ -18,11 +18,12 @@ const $q = useQuasar();
 const { t } = useI18n();
 
 onMounted(() => {
-  if (!usersStore.isAdmin || !usersStore.isSp) {
+  if (usersStore.isAdmin || usersStore.isSp) {
+    offersStore.getMyOffers();
+    appStore.selectedMyOffer = [] as IOffer[];
+  } else {
     return;
   }
-  offersStore.getMyOffers();
-  appStore.selectedMyOffer = [] as IOffer[];
 });
 
 // Selected row(s) -> selection="single" or selection="multiple"
@@ -56,7 +57,6 @@ async function createOffer(): Promise<void> {
   appStore.showCreateOfferDialog = true;
 }
 
-
 const columns: QTableColumn[] = [
   {
     name: '_id',
@@ -65,7 +65,7 @@ const columns: QTableColumn[] = [
     align: 'left',
     sortable: true,
   },
-   {
+  {
     name: 'offer_start',
     label: 'Offer start',
     field: (row: IOffer) => row?.offer_start?.toString().substring(0, 10),

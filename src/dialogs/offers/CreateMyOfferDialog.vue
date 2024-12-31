@@ -42,7 +42,7 @@ function Submit() {
   })
     .onOk(async () => {
       await offersStore.createOffer();
-      await offersStore.getPaginatedOffers();
+      await offersStore.getMyOffers();
       // appStore.showEditUserDialog = false;
     })
     .onCancel(() => {
