@@ -14,6 +14,7 @@ export default {
   edit_categories: 'Edit categories',
   edit_products: 'Edit products',
   edit_offers: 'Edit offers',
+  edit_my_offers: 'My offers',
   delete: 'Delete',
   new: 'New',
   edit: 'Edit',

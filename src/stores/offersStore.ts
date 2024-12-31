@@ -75,11 +75,29 @@ export const useOfferssStore = defineStore('offersStore', {
       }
     },
 
+    async getMyOffers(): Promise<void> {
+      Loading.show();
+      this.isLoading = true;
+      try {
+        this.offers = [];
+        const res = await api.get('/offers/myoffer/get');
+        if (res?.data) {
+          this.offers = res.data;
+        }
+      } catch (error: any) {
+        ShowErrorWithNotify(error);
+      } finally {
+        Loading.hide();
+        this.isLoading = false;
+      }
+    },
+
+
     async getOfferById(): Promise<void> {
       try {
         Loading.show();
         if (this.actOffer._id) {
-          const res = await api.get(`/products/${this.actOffer._id}`);
+          const res = await api.get(`/offers/${this.actOffer._id}`);
           if (res?.data) {
             this.actOffer = res.data;
             // store startig data to PATCH method and Reset button:
@@ -165,7 +183,7 @@ export const useOfferssStore = defineStore('offersStore', {
     async createOffer(): Promise<void> {
       try {
         Loading.show();
-        const res = await api.post('/products', this.actOffer);
+        const res = await api.post('/offers', this.actOffer);
         const newOffer: IOffer = res.data as IOffer;
         if (newOffer._id) {
           Notify.create({

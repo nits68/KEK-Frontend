@@ -14,6 +14,7 @@ export default {
   edit_categories: 'Kategóriák szerk.',
   edit_products: 'Termékek szerk.',
   edit_offers: 'Ajánlatok szerk',
+  edit_my_offers: 'Ajánlataim',
   delete: 'Törlés',
   new: 'Új',
   edit: 'Szerkesztés',

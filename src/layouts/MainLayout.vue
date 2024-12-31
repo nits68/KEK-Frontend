@@ -72,12 +72,21 @@ onMounted(() => {
           <q-toolbar-title class="my-title" />
 
           <q-btn
+            v-if="!$q.platform.is.mobile"
             :class="{ active: appStore.showLoginDialog }"
             clickable
             flat
             icon="mdi-login"
             :label="usersStore.loggedUser ? t('logout') : `${t('login')}/${t('registration')}`"
             no-caps
+            @click="appStore.showLoginDialog = true"
+          />
+          <q-btn
+            v-else
+            :class="{ active: appStore.showLoginDialog }"
+            clickable
+            flat
+            icon="mdi-login"
             @click="appStore.showLoginDialog = true"
           />
 
@@ -108,6 +117,10 @@ onMounted(() => {
           </q-btn>
           <q-btn flat icon="mdi-theme-light-dark" @click="$q.dark.toggle" />
 
+          <q-btn v-if="usersStore.isUser" flat icon="mdi-cart-variant">
+            <q-badge color="red" floating :label="0" />
+          </q-btn>
+
           <q-btn
             v-if="(usersStore.isSp || usersStore.isAdmin) && !$q.platform.is.mobile"
             dense
@@ -121,7 +134,7 @@ onMounted(() => {
 
       <!-- Left drawer: -->
       <q-drawer
-        v-if="usersStore.isSp"
+        v-if="usersStore.isUser"
         v-model="showLeftDrawer"
         bordered
         :breakpoint="500"
@@ -136,7 +149,7 @@ onMounted(() => {
 
       <!-- Right drawer: -->
       <q-drawer
-        v-if="usersStore.isAdmin"
+        v-if="usersStore.isAdmin || usersStore.isSp"
         v-model="showRightDrawer"
         bordered
         :breakpoint="800"
@@ -146,49 +159,66 @@ onMounted(() => {
         :width="200"
       >
         <q-scroll-area class="fit">
-          <div class="q-ma-sm text-center">Small producer's drawer!</div>
-          <div class="q-ma-sm text-center">Admin's drawer!</div>
-          <q-btn
-            align="left"
-            class="full-width q-ma-xs"
-            :class="{ active: router.currentRoute.value.path === '/editusers' }"
-            flat
-            icon="mdi-table"
-            :label="t('edit_users')"
-            no-caps
-            to="/editusers"
-          />
-          <q-btn
-            align="left"
-            class="full-width q-ma-xs"
-            :class="{ active: router.currentRoute.value.path === '/editcategories' }"
-            flat
-            icon="mdi-table"
-            :label="t('edit_categories')"
-            no-caps
-            to="/editcategories"
-          />
+          <div v-if="usersStore.isSp">
+            <div class="q-ma-sm text-center">for small producer's</div>
 
-          <q-btn
-            align="left"
-            class="full-width q-ma-xs"
-            :class="{ active: router.currentRoute.value.path === '/editproducts' }"
-            flat
-            icon="mdi-table"
-            :label="t('edit_products')"
-            no-caps
-            to="/editproducts"
-          />
-          <q-btn
-            align="left"
-            class="full-width q-ma-xs"
-            :class="{ active: router.currentRoute.value.path === '/editoffers' }"
-            flat
-            icon="mdi-table"
-            :label="t('edit_offers')"
-            no-caps
-            to="/editoffers"
-          />
+            <q-btn
+              align="left"
+              class="full-width q-ma-xs"
+              :class="{ active: router.currentRoute.value.path === '/editmyoffers' }"
+              flat
+              icon="mdi-table"
+              :label="t('edit_my_offers')"
+              no-caps
+              to="/editmyoffers"
+            />
+          </div>
+          <q-separator />
+          <div v-if="usersStore.isAdmin">
+            <div class="q-ma-sm text-center">for admin's</div>
+
+            <q-btn
+              align="left"
+              class="full-width q-ma-xs"
+              :class="{ active: router.currentRoute.value.path === '/editusers' }"
+              flat
+              icon="mdi-table"
+              :label="t('edit_users')"
+              no-caps
+              to="/editusers"
+            />
+            <q-btn
+              align="left"
+              class="full-width q-ma-xs"
+              :class="{ active: router.currentRoute.value.path === '/editcategories' }"
+              flat
+              icon="mdi-table"
+              :label="t('edit_categories')"
+              no-caps
+              to="/editcategories"
+            />
+
+            <q-btn
+              align="left"
+              class="full-width q-ma-xs"
+              :class="{ active: router.currentRoute.value.path === '/editproducts' }"
+              flat
+              icon="mdi-table"
+              :label="t('edit_products')"
+              no-caps
+              to="/editproducts"
+            />
+            <q-btn
+              align="left"
+              class="full-width q-ma-xs"
+              :class="{ active: router.currentRoute.value.path === '/editoffers' }"
+              flat
+              icon="mdi-table"
+              :label="t('edit_offers')"
+              no-caps
+              to="/editoffers"
+            />
+          </div>
         </q-scroll-area>
       </q-drawer>
 

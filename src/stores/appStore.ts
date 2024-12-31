@@ -21,11 +21,14 @@ export interface IState {
   showCreateProductDialog: boolean;
   showEditOffersDialog: boolean;
   showCreateOfferDialog: boolean;
+  showEditMyOffersDialog: boolean;
+  showCreateMyOfferDialog: boolean;
   currentYear: number;
   selectedUser: Array<IUser>;
   selectedCategory: Array<ICategory>;
   selectedProduct: Array<IProduct>;
   selectedOffer: Array<IOffer>;
+  selectedMyOffer: Array<IOffer>;
 }
 
 export const useAppStore = defineStore('appStore', {
@@ -43,11 +46,14 @@ export const useAppStore = defineStore('appStore', {
     showCreateProductDialog: false,
     showEditOffersDialog: false,
     showCreateOfferDialog: false,
+    showEditMyOffersDialog: false,
+    showCreateMyOfferDialog: false,
     currentYear: new Date().getFullYear(),
     selectedUser: [] as Array<IUser>,
     selectedCategory: [] as Array<ICategory>,
     selectedProduct: [] as Array<IProduct>,
     selectedOffer: [] as Array<IOffer>,
+    selectedMyOffer: [] as Array<IOffer>,
   }),
 
   // getters: {},
