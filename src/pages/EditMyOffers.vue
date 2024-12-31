@@ -22,6 +22,7 @@ onMounted(() => {
     return;
   }
   offersStore.getMyOffers();
+  appStore.selectedMyOffer = [] as IOffer[];
 });
 
 // Selected row(s) -> selection="single" or selection="multiple"
@@ -35,9 +36,9 @@ async function deleteMyOffer(): Promise<void> {
     persistent: true,
   })
     .onOk(async () => {
-      offersStore.actOffer = { _id: appStore.selectedOffer[0]?._id } as IOffer;
+      offersStore.actOffer = { _id: appStore.selectedMyOffer[0]?._id } as IOffer;
       await offersStore.deleteOfferById();
-      await offersStore.getPaginatedOffers();
+      await offersStore.getMyOffers();
       appStore.selectedProduct = [] as IOffer[];
     })
     .onCancel(() => {
@@ -51,24 +52,19 @@ async function editMyOffer(): Promise<void> {
   // selected.value = [] as IUser[];
 }
 
-// async function createOffer(): Promise<void> {
-//   appStore.showCreateOfferDialog = true;
-//   // s.many.document = { id: selected.value[0].id };
-//   // usersStore.document = { id: s.app.selected[0].id } as IMany;
-//   // await s.ManyDeleteById();
-//   // await s.ManyGetAll();
-//   // s.app.selected = [];
-// }
-
-async function filterUpdate() {
-  // Clear button (x) set filter to null
-  if (!appStore.offersFilter) {
-    appStore.offersFilter = '';
-  }
-  await offersStore.getPaginatedOffers();
+async function createOffer(): Promise<void> {
+  appStore.showCreateOfferDialog = true;
 }
 
+
 const columns: QTableColumn[] = [
+  {
+    name: '_id',
+    label: '_id',
+    field: (row: IOffer) => row?._id,
+    align: 'left',
+    sortable: true,
+  },
    {
     name: 'offer_start',
     label: 'Offer start',
@@ -78,14 +74,14 @@ const columns: QTableColumn[] = [
   },
   {
     name: 'offer_end',
-    label: 'Offer end',
+    label: 'Offer end#',
     field: (row: IOffer) => (row?.offer_end == null ? 'null' : row?.offer_end?.toString().substring(0, 10)),
     align: 'left',
     sortable: true,
   },
   {
     name: 'quantity',
-    label: 'Quantity',
+    label: 'Quantity#',
     field: (row: IOffer) => row?.quantity,
     align: 'left',
     sortable: true,
@@ -106,7 +102,7 @@ const columns: QTableColumn[] = [
   },
   {
     name: 'picture_url',
-    label: 'Picture URL',
+    label: 'Picture URL#',
     field: (row: IOffer) => row?.picture_url,
     align: 'left',
     sortable: true,
@@ -143,17 +139,8 @@ function selectRow(evt: Event, offer: IOffer): void {
 </script>
 
 <template>
-  <q-page v-if="usersStore.isAdmin">
+  <q-page v-if="usersStore.isAdmin || usersStore.isSp">
     <div class="q-pa-md">
-      <q-input
-        v-model="appStore.offersFilter"
-        clearable
-        dense
-        filled
-        label="Filter"
-        type="text"
-        @update:model-value="filterUpdate()"
-      />
       <q-table
         v-model:selected="appStore.selectedMyOffer"
         binary-state-sort
@@ -177,12 +164,13 @@ function selectRow(evt: Event, offer: IOffer): void {
           no-caps
           @click="deleteMyOffer()"
         />
+        <q-btn class="q-ml-md" color="green" :label="t('new')" no-caps @click="createOffer()" />
         <!-- <q-btn class="q-ml-md" color="green" :label="t('new')" no-caps @click="createOffer()" /> -->
         <q-btn
           class="q-ml-md"
           color="primary"
           :disable="appStore.selectedMyOffer.length != 1"
-          :label="t('edit')"
+          :label="`${t('edit')}#`"
           no-caps
           @click="editMyOffer()"
         />

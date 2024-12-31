@@ -18,9 +18,8 @@ onMounted(() => {
   if (!usersStore.isAdmin) {
     return;
   }
-  appStore.showCreateCategoryDialog = false;
-  appStore.showEditCategoriesDialog = false;
   categoriesStore.getAllCategories();
+  appStore.selectedCategory = [] as ICategory[];
 });
 
 async function deleteCategory(): Promise<void> {

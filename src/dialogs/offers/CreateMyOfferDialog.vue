@@ -15,7 +15,12 @@ const options = ref([] as IProduct[]);
 
 async function ShowDialog() {
   // await offersStore.getOfferById();
-  offersStore.actOffer = { _id: 'bbbb00000000000000000000', offer_start: new Date(),  offer_end: null,  picture_url: 'none' } as IOffer;
+  offersStore.actOffer = {
+    _id: 'bbbb00000000000000000000',
+    offer_start: new Date(),
+    offer_end: null,
+    picture_url: 'none',
+  } as IOffer;
   await productsStore.getAllProducts();
   // await categoriesStore.getAllCategories();
   // for filter function:
@@ -47,7 +52,12 @@ function Submit() {
 }
 
 function Reset() {
-  offersStore.actOffer = { _id: 'bbbb00000000000000000000', offer_start: new Date(),  offer_end: null,  picture_url: 'none' } as IOffer;
+  offersStore.actOffer = {
+    _id: 'bbbb00000000000000000000',
+    offer_start: new Date(),
+    offer_end: null,
+    picture_url: 'none',
+  } as IOffer;
 }
 
 function Close() {
@@ -92,7 +102,18 @@ const offerEndConverter = computed({
       <q-form @reset="Reset()" @submit="Submit()">
         <div class="row">
           <div v-if="offersStore.actOffer._id" class="col-12">
-            <h5 class="text-center q-ma-sm">Edit offer</h5>
+            <h5 class="text-center q-ma-sm">Create offer</h5>
+
+            <q-input
+              id="_id"
+              v-model="offersStore.actOffer._id"
+              counter
+              dense
+              filled
+              label="_id"
+              :rules="[(v) => (v != null && v != '') || 'Please fill in!', (v) => v.length == 24 || 'length != 24']"
+              type="text"
+            />
 
             <q-select
               id="product_id"
@@ -122,6 +143,26 @@ const offerEndConverter = computed({
             />
 
             <q-input
+              id="unit"
+              v-model="offersStore.actOffer.unit"
+              dense
+              filled
+              label="Unit"
+              :rules="[(v) => (v != null && v != '') || 'Please fill in!']"
+              type="text"
+            />
+
+            <q-input
+              id="unit_price"
+              v-model.number="offersStore.actOffer.unit_price"
+              dense
+              filled
+              label="Unit price (Ft)"
+              :rules="[(v) => (v != null && v != '') || 'Please fill in!']"
+              type="number"
+            />
+
+            <q-input
               id="offer_start"
               v-model="offerStartConverter"
               class="q-mb-md"
@@ -132,7 +173,6 @@ const offerEndConverter = computed({
               type="date"
               @clear="offersStore.actOffer.offer_start = new Date()"
             />
-
 
             <q-input
               id="offer_end"
@@ -154,7 +194,8 @@ const offerEndConverter = computed({
               label="picture URL (optimal 300x300)"
               :rules="[(v) => (v != null && v != '') || 'Please fill in!']"
               type="text"
-            />
+             />
+              
             <div class="row justify-center q-mb-md">
               <q-img :src="offersStore.actOffer.picture_url" style="width: 150px; height: 150px">
                 <template v-slot:error>

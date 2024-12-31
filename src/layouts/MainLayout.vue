@@ -46,7 +46,7 @@ onMounted(() => {
         <!-- Menu bar: -->
         <q-toolbar>
           <q-btn
-            v-if="usersStore.isUser && !$q.platform.is.mobile"
+            v-if="usersStore.isUser"
             dense
             flat
             icon="mdi-menu"
@@ -57,7 +57,6 @@ onMounted(() => {
             <q-avatar v-if="!$q.platform.is.mobile">
               <img src="../assets/Jedlik_small.png" />
             </q-avatar>
-            KEK
           </q-toolbar-title>
           <!-- <q-btn
             :class="{ active: router.currentRoute.value.path === '/' }"
@@ -122,7 +121,7 @@ onMounted(() => {
           </q-btn>
 
           <q-btn
-            v-if="(usersStore.isSp || usersStore.isAdmin) && !$q.platform.is.mobile"
+            v-if="usersStore.isSp || usersStore.isAdmin"
             dense
             flat
             icon="mdi-menu"
@@ -143,7 +142,29 @@ onMounted(() => {
         :width="200"
       >
         <q-scroll-area class="fit">
-          <div class="q-ma-sm text-center">User's drawer!</div>
+          <div class="q-ma-sm text-center text-italic">for users</div>
+
+          <q-btn
+              align="left"
+              class="full-width q-ma-xs"
+              :class="{ active: router.currentRoute.value.path === '/cart' }"
+              flat
+              icon="mdi-table"
+              :label="t('cart')"
+              no-caps
+              to="/cart"
+            />
+
+          <q-btn
+              align="left"
+              class="full-width q-ma-xs"
+              :class="{ active: router.currentRoute.value.path === '/myorders' }"
+              flat
+              icon="mdi-table"
+              :label="t('myorders')"
+              no-caps
+              to="/myorders"
+            />
         </q-scroll-area>
       </q-drawer>
 
@@ -160,7 +181,7 @@ onMounted(() => {
       >
         <q-scroll-area class="fit">
           <div v-if="usersStore.isSp">
-            <div class="q-ma-sm text-center">for small producer's</div>
+            <div class="q-ma-sm text-center text-italic">for small producers</div>
 
             <q-btn
               align="left"
@@ -172,10 +193,21 @@ onMounted(() => {
               no-caps
               to="/editmyoffers"
             />
+
+            <q-btn
+              align="left"
+              class="full-width q-ma-xs"
+              :class="{ active: router.currentRoute.value.path === '/orders' }"
+              flat
+              icon="mdi-table"
+              :label="t('orders')"
+              no-caps
+              to="/orders"
+            />
           </div>
           <q-separator />
           <div v-if="usersStore.isAdmin">
-            <div class="q-ma-sm text-center">for admin's</div>
+            <div class="q-ma-sm text-center text-italic">for admins</div>
 
             <q-btn
               align="left"

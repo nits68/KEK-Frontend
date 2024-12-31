@@ -21,6 +21,7 @@ onMounted(() => {
     return;
   }
   productsStore.getAllProducts();
+  appStore.selectedProduct = [] as IProduct[];
 });
 
 // Selected row(s) -> selection="single" or selection="multiple"
@@ -52,11 +53,6 @@ async function editProduct(): Promise<void> {
 
 async function createProduct(): Promise<void> {
   appStore.showCreateProductDialog = true;
-  // s.many.document = { id: selected.value[0].id };
-  // usersStore.document = { id: s.app.selected[0].id } as IMany;
-  // await s.ManyDeleteById();
-  // await s.ManyGetAll();
-  // s.app.selected = [];
 }
 
 async function filterUpdate() {

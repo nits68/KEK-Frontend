@@ -18,6 +18,7 @@ onMounted(() => {
     return;
   }
   usersStore.getAllUsers();
+  appStore.selectedUser = [] as IUser[];
 });
 
 // Selected row(s) -> selection="single" or selection="multiple"

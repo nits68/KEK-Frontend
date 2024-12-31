@@ -35,6 +35,7 @@ onMounted(() => {
   }
   offersStore.pagination.rowsPerPage = $q.platform.is.mobile ? 5 : 20;
   onRequest({ pagination: offersStore.pagination });
+  appStore.selectedOffer = [] as IOffer[];
   // offersStore.getPaginatedOffers();
 });
 
@@ -100,14 +101,14 @@ const columns: QTableColumn[] = [
   },
   {
     name: 'offer_end',
-    label: 'Offer end (*)',
+    label: 'Offer end#',
     field: (row: IOffer) => (row?.offer_end == null ? 'null' : row?.offer_end?.toString().substring(0, 10)),
     align: 'left',
     sortable: true,
   },
   {
     name: 'quantity',
-    label: 'Quantity (*)',
+    label: 'Quantity#',
     field: (row: IOffer) => row?.quantity,
     align: 'left',
     sortable: true,
@@ -128,7 +129,7 @@ const columns: QTableColumn[] = [
   },
   {
     name: 'picture_url',
-    label: 'Picture URL',
+    label: 'Picture URL#',
     field: (row: IOffer) => row?.picture_url,
     align: 'left',
     sortable: true,
@@ -206,7 +207,7 @@ function selectRow(evt: Event, offer: IOffer): void {
           class="q-ml-md"
           color="primary"
           :disable="appStore.selectedOffer.length != 1"
-          :label="t('edit')"
+          :label="`${t('edit')}#`"
           no-caps
           @click="editOffer()"
         />
