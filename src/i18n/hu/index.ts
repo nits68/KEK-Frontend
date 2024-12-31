@@ -15,6 +15,7 @@ export default {
   edit_products: 'Termékek szerk.',
   edit_offers: 'Ajánlatok szerk',
   edit_my_offers: 'Ajánlataim',
+  act_offers: 'Aktuális ajánlatok',
   orders: 'Rendelések',
   cart: 'Kosár',
   myorders: 'Rendeléseim',

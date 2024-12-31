@@ -15,6 +15,7 @@ export default {
   edit_products: 'Edit products',
   edit_offers: 'Edit offers',
   edit_my_offers: 'My offers',
+  act_offers: 'Actual offers',
   cart: 'Cart',
   myorders: 'My orders',
   orders: 'Orders',

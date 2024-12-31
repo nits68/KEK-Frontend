@@ -53,22 +53,13 @@ onMounted(() => {
             round
             @click="showLeftDrawer = !showLeftDrawer"
           />
-          <q-toolbar-title class="my-title" :shrink="true" style="cursor: pointer" @click="router.push({ path: '/' })">
-            <q-avatar v-if="!$q.platform.is.mobile">
+          <q-toolbar-title v-if="!$q.platform.is.mobile" :shrink="true" style="cursor: pointer" @click="router.push({ path: '/' })">
+            <q-avatar >
               <img src="../assets/Jedlik_small.png" />
             </q-avatar>
           </q-toolbar-title>
-          <!-- <q-btn
-            :class="{ active: router.currentRoute.value.path === '/' }"
-            clickable
-            flat
-            icon="mdi-home"
-            label="Home"
-            no-caps
-            to="/"
-          /> -->
-
-          <q-toolbar-title class="my-title" />
+         
+          <q-space />
 
           <q-btn
             v-if="!$q.platform.is.mobile"
@@ -143,6 +134,17 @@ onMounted(() => {
       >
         <q-scroll-area class="fit">
           <div class="q-ma-sm text-center text-italic">for users</div>
+
+          <q-btn
+              align="left"
+              class="full-width q-ma-xs"
+              :class="{ active: router.currentRoute.value.path === '/' }"
+              flat
+              icon="mdi-table"
+              :label="t('act_offers')"
+              no-caps
+              to="/"
+            />
 
           <q-btn
               align="left"
@@ -280,16 +282,4 @@ onMounted(() => {
   color: yellow;
 }
 
-.my-title {
-  font-size: 10px;
-  @media (min-width: 400px) {
-    font-size: calc(10px + 0.5vw);
-  }
-  @media (min-width: 800px) {
-    font-size: calc(14px + 0.5vw);
-  }
-  @media (min-width: 1200px) {
-    font-size: calc(18px + 0.5vw);
-  }
-}
 </style>
