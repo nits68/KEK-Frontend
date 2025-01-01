@@ -11,6 +11,7 @@ export interface IState {
   usersFilter: string;
   productsFilter: string;
   offersFilter: string;
+  actOffersFilter: string;
   showLoginDialog: boolean;
   showProfileDialog: boolean;
   showEditUserDialog: boolean;
@@ -36,6 +37,7 @@ export const useAppStore = defineStore('appStore', {
     usersFilter: '',
     productsFilter: '',
     offersFilter: '',
+    actOffersFilter: '',
     showLoginDialog: false,
     showProfileDialog: false,
     showEditUserDialog: false,

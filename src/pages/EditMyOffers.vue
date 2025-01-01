@@ -38,7 +38,7 @@ async function deleteMyOffer(): Promise<void> {
   })
     .onOk(async () => {
       offersStore.actOffer = { _id: appStore.selectedMyOffer[0]?._id } as IOffer;
-      await offersStore.deleteOfferById();
+      await offersStore.deleteMyOfferById();
       await offersStore.getMyOffers();
       appStore.selectedProduct = [] as IOffer[];
     })
@@ -177,7 +177,7 @@ function selectRow(evt: Event, offer: IOffer): void {
       </div>
     </div>
     <!-- {{ appStore.selectedUser }} -->
-    {{ offersStore.offers }}
+    <!-- {{ offersStore.offers }} -->
     <!-- {{ offersStore.pagination }} -->
     <!-- {{ appStore.selectedOffer }} -->
     <EditMyOfferDialog />

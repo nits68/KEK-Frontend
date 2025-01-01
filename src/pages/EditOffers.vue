@@ -66,15 +66,6 @@ async function editOffer(): Promise<void> {
   // selected.value = [] as IUser[];
 }
 
-// async function createOffer(): Promise<void> {
-//   appStore.showCreateOfferDialog = true;
-//   // s.many.document = { id: selected.value[0].id };
-//   // usersStore.document = { id: s.app.selected[0].id } as IMany;
-//   // await s.ManyDeleteById();
-//   // await s.ManyGetAll();
-//   // s.app.selected = [];
-// }
-
 async function filterUpdate() {
   // Clear button (x) set filter to null
   if (!appStore.offersFilter) {
@@ -193,7 +184,6 @@ function selectRow(evt: Event, offer: IOffer): void {
         @row-click="selectRow"
       />
 
-      <!-- Button for delete selected record: -->
       <div class="row justify-center q-ma-md">
         <q-btn
           color="red"
@@ -202,7 +192,6 @@ function selectRow(evt: Event, offer: IOffer): void {
           no-caps
           @click="deleteOffer()"
         />
-        <!-- <q-btn class="q-ml-md" color="green" :label="t('new')" no-caps @click="createOffer()" /> -->
         <q-btn
           class="q-ml-md"
           color="primary"
@@ -214,7 +203,7 @@ function selectRow(evt: Event, offer: IOffer): void {
       </div>
     </div>
     <!-- {{ appStore.selectedUser }} -->
-    {{ offersStore.offers }}
+    <!-- {{ offersStore.offers }} -->
     <!-- {{ offersStore.pagination }} -->
     <!-- {{ appStore.selectedOffer }} -->
     <EditOfferDialog />

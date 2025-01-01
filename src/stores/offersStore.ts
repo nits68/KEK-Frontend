@@ -12,7 +12,7 @@ Notify.setDefaults({
   actions: [{ icon: 'close', color: 'white' }],
 });
 
-export interface IPagination  {
+export interface IPagination {
   page: number;
   rowsPerPage: number;
   sortBy: string;
@@ -28,8 +28,10 @@ export interface IOffer {
   unit_price?: number;
   quantity?: number;
   picture_url?: string;
+  info?: string;
   user_id?: string;
   product_id?: string;
+  expanded?: boolean;
 }
 
 interface IState {
@@ -50,12 +52,16 @@ export const useOfferssStore = defineStore('offersStore', {
       sortBy: '_id',
       descending: false,
       page: 1,
-      rowsPerPage: 2,
+      rowsPerPage: 12,
       rowsNumber: 0,
     },
   }),
 
-  getters: {},
+  getters: {
+    numberOfPage(): number {
+      return Math.ceil(this.pagination.rowsNumber / this.pagination.rowsPerPage);
+    },
+  },
 
   actions: {
     async getAllOffers(): Promise<void> {
@@ -92,7 +98,6 @@ export const useOfferssStore = defineStore('offersStore', {
       }
     },
 
-
     async getOfferById(): Promise<void> {
       try {
         Loading.show();
@@ -110,23 +115,6 @@ export const useOfferssStore = defineStore('offersStore', {
         Loading.hide();
       }
     },
-
-    // async getProductsByFilter(): Promise<void> {
-    //   try {
-    //     if (appStore.productsFilter) {
-    //       this.products = [];
-    //       Loading.show();
-    //       const res = await api.get(`/products/keyword/${appStore.productsFilter}`);
-    //       if (res?.data) {
-    //         this.products = res.data;
-    //       }
-    //     }
-    //   } catch (error) {
-    //     ShowErrorWithNotify(error);
-    //   } finally {
-    //     Loading.hide();
-    //   }
-    // },
 
     async editOfferById(): Promise<void> {
       try {
@@ -180,6 +168,23 @@ export const useOfferssStore = defineStore('offersStore', {
       }
     },
 
+    async deleteMyOfferById(): Promise<void> {
+      try {
+        if (this.actOffer._id) {
+          Loading.show();
+          await api.delete(`/offers/myoffer/${this.actOffer._id}`);
+          Notify.create({
+            message: `Your offer with id=${this.actOffer._id} has been deleted successfully!`,
+            color: 'positive',
+          });
+        }
+      } catch (error) {
+        ShowErrorWithNotify(error);
+      } finally {
+        Loading.hide();
+      }
+    },
+
     async createOffer(): Promise<void> {
       try {
         Loading.show();
@@ -203,7 +208,8 @@ export const useOfferssStore = defineStore('offersStore', {
         Loading.show();
         const filter: string = appStore.offersFilter == '' ? '*' : appStore.offersFilter;
         const res = await api.get(
-          `/offers/${(this.pagination.page - 1) * this.pagination.rowsPerPage}/${this.pagination.rowsPerPage}/${this.pagination.sortBy}/${filter}`);
+          `/offers/${(this.pagination.page - 1) * this.pagination.rowsPerPage}/${this.pagination.rowsPerPage}/${this.pagination.sortBy}/${filter}`,
+        );
         if (res?.data) {
           this.offers = res.data;
           this.pagination.rowsNumber = parseInt(res.headers['x-total-count']);
@@ -218,12 +224,13 @@ export const useOfferssStore = defineStore('offersStore', {
     async getPaginatedActiveOffers(): Promise<void> {
       try {
         Loading.show();
-        const filter: string = appStore.offersFilter == '' ? '*' : appStore.offersFilter;
+        const filter: string = appStore.actOffersFilter == '' ? '*' : appStore.actOffersFilter;
         const res = await api.get(
-          `/offers/active/${(this.pagination.page - 1) * this.pagination.rowsPerPage}/${this.pagination.rowsPerPage}/${this.pagination.sortBy}/${filter}`);
+          `/offers/active/${(this.pagination.page - 1) * this.pagination.rowsPerPage}/${this.pagination.rowsPerPage}/${this.pagination.sortBy}/${filter}`,
+        );
         if (res?.data) {
-          this.pagination.rowsNumber = parseInt(res.headers['X-Total-Count']);
-          this.offers = res.data;
+          this.pagination.rowsNumber = parseInt(res.headers['x-total-count']);
+          this.offers = res.data.map((e: any) => ({ ...e, expanded: false, order_quantity: 0 }));
         }
       } catch (error) {
         ShowErrorWithNotify(error);
@@ -231,7 +238,6 @@ export const useOfferssStore = defineStore('offersStore', {
         Loading.hide();
       }
     },
-
   },
 
   // all "state" data is stored in browser session store

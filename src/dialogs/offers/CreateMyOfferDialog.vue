@@ -194,8 +194,18 @@ const offerEndConverter = computed({
               label="picture URL (optimal 300x300)"
               :rules="[(v) => (v != null && v != '') || 'Please fill in!']"
               type="text"
-             />
-              
+            />
+
+            <q-input
+              id="info"
+              v-model="offersStore.actOffer.info"
+              dense
+              filled
+              label="Info"
+              :rules="[(v) => (v != null && v != '') || 'Please fill in!']"
+              type="text"
+            />
+
             <div class="row justify-center q-mb-md">
               <q-img :src="offersStore.actOffer.picture_url" style="width: 150px; height: 150px">
                 <template v-slot:error>
