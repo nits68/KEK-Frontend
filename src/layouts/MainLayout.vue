@@ -55,7 +55,7 @@ onMounted(() => {
           />
           <q-toolbar-title v-if="!$q.platform.is.mobile" :shrink="true" style="cursor: pointer" @click="router.push({ path: '/' })">
             <q-avatar >
-              <img src="../assets/KEK_basket_small.png" />
+              <img src="../assets/kek_basket_small.png" />
             </q-avatar>
           </q-toolbar-title>
          

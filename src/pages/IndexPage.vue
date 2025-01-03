@@ -144,7 +144,7 @@ h2 {
   font-size: 3vw;
 }
 .q-page {
-  background-image: url('../assets/KEK_basket.png');
+  background-image: url('../assets/kek_basket.png');
   background-repeat: no-repeat;
   background-position: center;
 }
