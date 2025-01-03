@@ -105,6 +105,7 @@ function lastPage() {
               :disable="e.order_quantity == 0 || e.order_quantity > e.quantity"
               flat
               label="Kosárba"
+              @click="appStore.basketCounter++"
             />
 
             <q-space />
@@ -141,5 +142,10 @@ function lastPage() {
 <style lang="scss" scoped>
 h2 {
   font-size: 3vw;
+}
+.q-page {
+  background-image: url('../assets/KEK_basket.png');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 </style>

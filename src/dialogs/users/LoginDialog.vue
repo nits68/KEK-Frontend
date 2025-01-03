@@ -143,7 +143,7 @@ function loginRegisterGoogle() {
 
         <q-card-actions align="center" class="text-primary q-mb-xl">
           <q-btn
-            class="shadow-10 q-mr-sm"
+            class="shadow-10 q-mr-sm q-mb-md"
             color="green"
             data-test="btnLoginLogoutDialog"
             :label="anyLoggedUser ? t('logout') : t('login')"
@@ -154,7 +154,7 @@ function loginRegisterGoogle() {
 
           <q-btn
             v-if="!anyLoggedUser"
-            class="shadow-10 q-mr-sm"
+            class="shadow-10 q-mr-sm q-mb-md"
             color="red"
             data-test="btnRegister"
             :disable="!r.password_ok"
@@ -166,7 +166,7 @@ function loginRegisterGoogle() {
 
           <q-btn
             v-if="!anyLoggedUser"
-            class="shadow-10 q-mr-sm"
+            class="shadow-10 q-mr-sm q-mb-md"
             color="blue"
             data-test="btnGoogle"
             label="Google"
@@ -175,7 +175,7 @@ function loginRegisterGoogle() {
           />
 
           <q-btn
-            class="shadow-10"
+            class="shadow-10 q-mb-md"
             color="red"
             data-test="btnClose"
             :label="t('close')"

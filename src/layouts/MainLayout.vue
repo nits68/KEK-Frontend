@@ -55,7 +55,7 @@ onMounted(() => {
           />
           <q-toolbar-title v-if="!$q.platform.is.mobile" :shrink="true" style="cursor: pointer" @click="router.push({ path: '/' })">
             <q-avatar >
-              <img src="../assets/Jedlik_small.png" />
+              <img src="../assets/KEK_basket_small.png" />
             </q-avatar>
           </q-toolbar-title>
          
@@ -66,7 +66,7 @@ onMounted(() => {
             :class="{ active: appStore.showLoginDialog }"
             clickable
             flat
-            icon="mdi-login"
+            :icon="usersStore.loggedUser ? 'mdi-logout' : 'mdi-login'"
             :label="usersStore.loggedUser ? t('logout') : `${t('login')}/${t('registration')}`"
             no-caps
             @click="appStore.showLoginDialog = true"
@@ -107,8 +107,8 @@ onMounted(() => {
           </q-btn>
           <q-btn flat icon="mdi-theme-light-dark" @click="$q.dark.toggle" />
 
-          <q-btn v-if="usersStore.isUser" flat icon="mdi-cart-variant">
-            <q-badge color="red" floating :label="0" />
+          <q-btn v-if="usersStore.isUser" flat icon="mdi-basket">
+            <q-badge color="red" floating :label="appStore.basketCounter" />
           </q-btn>
 
           <q-btn
@@ -140,7 +140,7 @@ onMounted(() => {
               class="full-width q-ma-xs"
               :class="{ active: router.currentRoute.value.path === '/' }"
               flat
-              icon="mdi-table"
+              icon="mdi-offer"
               :label="t('act_offers')"
               no-caps
               to="/"
@@ -151,7 +151,7 @@ onMounted(() => {
               class="full-width q-ma-xs"
               :class="{ active: router.currentRoute.value.path === '/cart' }"
               flat
-              icon="mdi-table"
+              icon="mdi-basket-plus"
               :label="t('cart')"
               no-caps
               to="/cart"
@@ -162,7 +162,7 @@ onMounted(() => {
               class="full-width q-ma-xs"
               :class="{ active: router.currentRoute.value.path === '/myorders' }"
               flat
-              icon="mdi-table"
+              icon="mdi-cart-arrow-down"
               :label="t('myorders')"
               no-caps
               to="/myorders"
@@ -190,7 +190,7 @@ onMounted(() => {
               class="full-width q-ma-xs"
               :class="{ active: router.currentRoute.value.path === '/editmyoffers' }"
               flat
-              icon="mdi-table"
+              icon="mdi-offer"
               :label="t('edit_my_offers')"
               no-caps
               to="/editmyoffers"
@@ -201,7 +201,7 @@ onMounted(() => {
               class="full-width q-ma-xs"
               :class="{ active: router.currentRoute.value.path === '/orders' }"
               flat
-              icon="mdi-table"
+              icon="mdi-basket-minus"
               :label="t('orders')"
               no-caps
               to="/orders"
@@ -216,7 +216,7 @@ onMounted(() => {
               class="full-width q-ma-xs"
               :class="{ active: router.currentRoute.value.path === '/editusers' }"
               flat
-              icon="mdi-table"
+              icon="mdi-account-multiple"
               :label="t('edit_users')"
               no-caps
               to="/editusers"
@@ -226,7 +226,7 @@ onMounted(() => {
               class="full-width q-ma-xs"
               :class="{ active: router.currentRoute.value.path === '/editcategories' }"
               flat
-              icon="mdi-table"
+              icon="mdi-shape"
               :label="t('edit_categories')"
               no-caps
               to="/editcategories"
@@ -237,7 +237,7 @@ onMounted(() => {
               class="full-width q-ma-xs"
               :class="{ active: router.currentRoute.value.path === '/editproducts' }"
               flat
-              icon="mdi-table"
+              icon="mdi-storefront-outline"
               :label="t('edit_products')"
               no-caps
               to="/editproducts"
@@ -247,7 +247,7 @@ onMounted(() => {
               class="full-width q-ma-xs"
               :class="{ active: router.currentRoute.value.path === '/editoffers' }"
               flat
-              icon="mdi-table"
+              icon="mdi-offer"
               :label="t('edit_offers')"
               no-caps
               to="/editoffers"

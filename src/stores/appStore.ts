@@ -25,6 +25,7 @@ export interface IState {
   showEditMyOffersDialog: boolean;
   showCreateMyOfferDialog: boolean;
   currentYear: number;
+  basketCounter: number;
   selectedUser: Array<IUser>;
   selectedCategory: Array<ICategory>;
   selectedProduct: Array<IProduct>;
@@ -51,6 +52,7 @@ export const useAppStore = defineStore('appStore', {
     showEditMyOffersDialog: false,
     showCreateMyOfferDialog: false,
     currentYear: new Date().getFullYear(),
+    basketCounter: 0,
     selectedUser: [] as Array<IUser>,
     selectedCategory: [] as Array<ICategory>,
     selectedProduct: [] as Array<IProduct>,
