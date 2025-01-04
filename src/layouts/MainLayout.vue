@@ -45,20 +45,18 @@ onMounted(() => {
       <q-header v-model="showMenuBar" class="text-left bg-blue-5" elevated reveal>
         <!-- Menu bar: -->
         <q-toolbar>
-          <q-btn
-            v-if="usersStore.isUser"
-            dense
-            flat
-            icon="mdi-menu"
-            round
-            @click="showLeftDrawer = !showLeftDrawer"
-          />
-          <q-toolbar-title v-if="!$q.platform.is.mobile" :shrink="true" style="cursor: pointer" @click="router.push({ path: '/' })">
-            <q-avatar >
-              <img src="../assets/kek_basket_small.png" />
+          <q-btn v-if="usersStore.isUser" dense flat icon="mdi-menu" round @click="showLeftDrawer = !showLeftDrawer" />
+          <q-toolbar-title
+            v-if="!$q.platform.is.mobile"
+            :shrink="true"
+            style="cursor: pointer"
+            @click="router.push({ path: '/' })"
+          >
+            <q-avatar>
+              <q-img src="../assets/kek_cimer_small.png" />
             </q-avatar>
           </q-toolbar-title>
-         
+
           <q-space />
 
           <q-btn
@@ -136,37 +134,40 @@ onMounted(() => {
           <div class="q-ma-sm text-center text-italic">for users</div>
 
           <q-btn
-              align="left"
-              class="full-width q-ma-xs"
-              :class="{ active: router.currentRoute.value.path === '/' }"
-              flat
-              icon="mdi-offer"
-              :label="t('act_offers')"
-              no-caps
-              to="/"
-            />
+            align="left"
+            class="full-width q-ma-xs"
+            :class="{ active: router.currentRoute.value.path === '/' }"
+            flat
+            icon="mdi-offer"
+            :label="t('act_offers')"
+            no-caps
+            to="/"
+          />
 
           <q-btn
-              align="left"
-              class="full-width q-ma-xs"
-              :class="{ active: router.currentRoute.value.path === '/cart' }"
-              flat
-              icon="mdi-basket-plus"
-              :label="t('cart')"
-              no-caps
-              to="/cart"
-            />
+            align="left"
+            class="full-width q-ma-xs"
+            :class="{ active: router.currentRoute.value.path === '/cart' }"
+            flat
+            icon="mdi-basket-plus"
+            :label="t('cart')"
+            no-caps
+            to="/cart"
+          />
 
           <q-btn
-              align="left"
-              class="full-width q-ma-xs"
-              :class="{ active: router.currentRoute.value.path === '/myorders' }"
-              flat
-              icon="mdi-cart-arrow-down"
-              :label="t('myorders')"
-              no-caps
-              to="/myorders"
-            />
+            align="left"
+            class="full-width q-ma-xs"
+            :class="{ active: router.currentRoute.value.path === '/myorders' }"
+            flat
+            icon="mdi-cart-arrow-down"
+            :label="t('myorders')"
+            no-caps
+            to="/myorders"
+          />
+          <div class="q-ma-md">
+            <q-img src="../assets/kek_cimer.png" />
+          </div>
         </q-scroll-area>
       </q-drawer>
 
@@ -281,5 +282,4 @@ onMounted(() => {
   background-color: #44a5f1;
   color: yellow;
 }
-
 </style>

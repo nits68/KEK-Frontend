@@ -46,29 +46,37 @@ function lastPage() {
   <q-page class="q-pa-md">
     <div class="row">
       <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 q-mr-sm">
-        <q-input
-          v-model="appStore.actOffersFilter"
-          dense
-          filled
-          label="Filter"
-          type="text"
-          width="100%"
-          @update:model-value="filterUpdate()"
-        />
+        <q-input v-model="appStore.actOffersFilter" dense filled label="Filter" type="text" width="100%">
+          <template v-slot:append>
+            <q-btn flat icon="search" round @click="filterUpdate()" />
+          </template>
+        </q-input>
       </div>
       <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 q-gutter-x-sm">
-        <q-btn color="blue" :disable="offersStore.pagination.page == 1" no-caps @click="firstPage()">&lt;&lt;</q-btn>
-        <q-btn color="blue" :disable="offersStore.pagination.page == 1" no-caps @click="prevPage()">&lt;</q-btn>
         <q-btn
           color="blue"
-          :disable="offersStore.pagination.page == offersStore.numberOfPage"
+          :disable="offersStore.pagination.page == 1 || offersStore.numberOfPage == 0"
+          no-caps
+          @click="firstPage()"
+          >&lt;&lt;</q-btn
+        >
+        <q-btn
+          color="blue"
+          :disable="offersStore.pagination.page == 1 || offersStore.numberOfPage == 0"
+          no-caps
+          @click="prevPage()"
+          >&lt;</q-btn
+        >
+        <q-btn
+          color="blue"
+          :disable="offersStore.pagination.page == offersStore.numberOfPage || offersStore.numberOfPage == 0"
           no-caps
           @click="nextPage()"
           >&gt;</q-btn
         >
         <q-btn
           color="blue"
-          :disable="offersStore.pagination.page == offersStore.numberOfPage"
+          :disable="offersStore.pagination.page == offersStore.numberOfPage || offersStore.numberOfPage == 0"
           no-caps
           @click="lastPage()"
           >&gt;&gt;</q-btn
@@ -143,9 +151,9 @@ function lastPage() {
 h2 {
   font-size: 3vw;
 }
-.q-page {
-  background-image: url('../assets/kek_basket.png');
-  background-repeat: no-repeat;
-  background-position: center;
-}
+// .q-page {
+//   background-image: url('../assets/kek_cimer.png');
+//   background-repeat: no-repeat;
+//   background-position: center;
+// }
 </style>

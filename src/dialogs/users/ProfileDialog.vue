@@ -3,6 +3,8 @@ import { Dialog } from 'quasar';
 import { useAppStore } from '../../stores/appStore';
 import type { IUser } from '../../stores/usersStore';
 import { useUsersStore } from '../../stores/usersStore';
+import { reactive } from 'vue';
+import ValidPassword from '../../components/ValidPassword.vue';
 // import { onMounted } from 'vue';
 // import { useRouter } from 'vue-router';
 
@@ -10,11 +12,21 @@ const usersStore = useUsersStore();
 const appStore = useAppStore();
 // const router = useRouter();
 
+interface IReactiveData {
+  password_ok: boolean;
+  isPwd: boolean;
+}
+
+const r = reactive<IReactiveData>({
+  password_ok: true,
+  isPwd: true,
+});
+
 async function ShowDialog() {
   if (usersStore.loggedUser) {
     usersStore.actUser = { _id: usersStore.loggedUser._id } as IUser;
     await usersStore.getUserById();
-    usersStore.actUser.password = '';
+    // usersStore.actUser.password = '';
   }
 }
 
@@ -41,8 +53,18 @@ function Submit() {
     });
 }
 
+function Reset() {
+  usersStore.actUser = { ...usersStore.oldUser };
+  r.password_ok = true;
+}
+
 function Close() {
+  r.isPwd = true;
   appStore.showProfileDialog = false;
+}
+
+function isValidPassword(result: boolean): void {
+  r.password_ok = result;
 }
 </script>
 
@@ -52,15 +74,16 @@ function Close() {
       <q-form @submit="Submit()">
         <div class="row">
           <div v-if="usersStore.loggedUser" class="col-12 q-gutter-y-sm">
-            <h5 class="text-center q-ma-sm">Edit profile</h5>
+            <h5 class="text-center q-ma-sm">Edit profile #</h5>
 
             <q-input
               id="name"
               v-model="usersStore.actUser.name"
-              class="bg-green-2"
               dense
               filled
-              label="name"
+              label="name#"
+              lazy-rules
+              :rules="[(val) => !!val || 'Name is required']"
               type="text"
             />
 
@@ -86,30 +109,50 @@ function Close() {
               <q-checkbox
                 id="auto_login"
                 v-model="usersStore.actUser.auto_login"
-                color="green"
                 filled
                 keep-color
-                label="auto login"
+                label="auto login#"
               />
             </div>
 
             <q-input
               id="password"
               v-model="usersStore.actUser.password"
-              class="bg-green-2"
+              clearable
+              counter
               dense
+              :disable="usersStore.actUser?.password == 'stored @ Google007'"
               filled
-              label="password"
-              type="text"
+              :hint="
+                !r.isPwd && usersStore.actUser?.password == usersStore.oldUser.password
+                  ? 'You see encoded password, if you change it, it will be encoded before save.'
+                  : ''
+              "
+              :label="usersStore.actUser?.password == 'stored @ Google007' ? 'password' : 'password#'"
+              :rules="[() => r.password_ok || 'Check the requirements:']"
+              :type="r.isPwd ? 'password' : 'text'"
+              @clear="usersStore.actUser.password = ''"
+            >
+              <template v-slot:append>
+                <q-icon
+                  class="cursor-pointer"
+                  :name="r.isPwd ? 'visibility_off' : 'visibility'"
+                  v-on:click="r.isPwd = !r.isPwd"
+                ></q-icon>
+              </template>
+            </q-input>
+            <ValidPassword
+              v-if="usersStore.actUser?.password != null && usersStore.actUser.password != usersStore.oldUser.password"
+              :password="usersStore.actUser.password!"
+              @password_changed="isValidPassword"
             />
 
             <q-input
               id="mobile_number"
               v-model="usersStore.actUser.mobile_number"
-              class="bg-green-2"
               dense
               filled
-              label="mobile number"
+              label="mobile number#"
               type="text"
             />
 
@@ -132,18 +175,18 @@ function Close() {
             <q-input
               id="picture"
               v-model="usersStore.actUser.picture"
-              class="bg-green-2"
               dense
               filled
-              label="picture URL or monogram (2 chars)"
+              label="picture URL or monogram (2 chars)#"
+              :rules="[(val) => !!val || 'Required!', (val) => val.length >= 2 || 'Too short!']"
               type="text"
             />
 
             <div class="row justify-center q-mb-xl">
               <q-btn class="q-mr-md" color="green" label="Save" no-caps type="submit" />
               <q-btn class="q-mr-md" color="blue" label="Close" no-caps @click="Close()" />
+              <q-btn class="q-mr-md" color="blue" label="Reset" no-caps @click="Reset()" />
             </div>
-            <!-- {{ usersStore.actUser }} -->
           </div>
         </div>
       </q-form>
