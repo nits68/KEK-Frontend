@@ -69,10 +69,10 @@ async function filterUpdate() {
 
 const columns: QTableColumn[] = [
   { name: 'id', label: '_id', field: (row: IProduct) => row?._id, align: 'left', sortable: true },
-  { name: 'product_name', label: 'Product name', field: (row: IProduct) => row?.product_name, align: 'left', sortable: true },
-  { name: 'picture_url', label: 'Picture url', field: (row: IProduct) => row?.picture_url?.slice(0,30) + '...', align: 'left', sortable: true },
-  { name: 'main_category', label: 'Main category', field: (row: IProduct) => row?.category?.main_category, align: 'left', sortable: true },
-  { name: 'category_name', label: 'Category name', field: (row: IProduct) => row?.category?.category_name, align: 'left', sortable: true },
+  { name: 'product_name', label: 'Product name*#', field: (row: IProduct) => row?.product_name, align: 'left', sortable: true },
+  { name: 'picture_url', label: 'Picture url#', field: (row: IProduct) => row?.picture_url?.slice(0,30) + '...', align: 'left', sortable: true },
+  { name: 'main_category', label: 'Main category*', field: (row: IProduct) => row?.category?.main_category, align: 'left', sortable: true },
+  { name: 'category_name', label: 'Category name*#', field: (row: IProduct) => row?.category?.category_name, align: 'left', sortable: true },
 
 ];
 
@@ -99,7 +99,7 @@ function selectRow(evt: Event, user: IProduct): void {
         clearable
         dense
         filled
-        label="Filter in product_name, category.category_name and category.main_category"
+        label="Filter*"
         type="text"
         @update:model-value="filterUpdate()"
       />
@@ -125,7 +125,7 @@ function selectRow(evt: Event, user: IProduct): void {
           class="q-ml-md"
           color="primary"
           :disable="appStore.selectedProduct.length != 1"
-          :label="t('edit')"
+          :label="`${t('edit')}#`"
           no-caps
           @click="editProduct()"
         />

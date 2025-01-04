@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAppStore } from '../stores/appStore';
 import { useOfferssStore } from '../stores/offersStore';
+import { useI18n } from 'vue-i18n';
 
 import { onMounted } from 'vue';
 // import { useRouter } from 'vue-router';
@@ -8,8 +9,12 @@ import { onMounted } from 'vue';
 const appStore = useAppStore();
 const offersStore = useOfferssStore();
 
+const { t } = useI18n();
+
 onMounted(() => {
   appStore.actOffersFilter = '';
+  offersStore.pagination.page = 1;
+  offersStore.pagination.rowsPerPage = 12;
   offersStore.getPaginatedActiveOffers();
 });
 
@@ -18,6 +23,7 @@ async function filterUpdate() {
   if (!appStore.actOffersFilter) {
     appStore.actOffersFilter = '';
   }
+  offersStore.pagination.page = 1;
   await offersStore.getPaginatedActiveOffers();
 }
 
@@ -45,41 +51,57 @@ function lastPage() {
 <template>
   <q-page class="q-pa-md">
     <div class="row">
-      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 q-mr-sm">
-        <q-input v-model="appStore.actOffersFilter" dense filled label="Filter" type="text" width="100%">
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 q-mr-sm q-mb-sm">
+        <q-input
+          v-model="appStore.actOffersFilter"
+          clearable
+          dense
+          filled
+          :label="t('filter')"
+          type="text"
+          width="100%"
+          @clear="filterUpdate()"
+          @keypress.enter.prevent="filterUpdate()"
+        >
           <template v-slot:append>
-            <q-btn flat icon="search" round @click="filterUpdate()" />
+            <q-btn flat icon="search" round @click="filterUpdate()">
+              <q-badge align="top" color="red" floating rounded>{{ offersStore.pagination.rowsNumber }}</q-badge>
+            </q-btn>
           </template>
         </q-input>
       </div>
-      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 q-gutter-x-sm">
+      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 q-gutter-x-sm text-center">
         <q-btn
           color="blue"
           :disable="offersStore.pagination.page == 1 || offersStore.numberOfPage == 0"
+          label="<<"
           no-caps
           @click="firstPage()"
-          >&lt;&lt;</q-btn
-        >
+        />
         <q-btn
           color="blue"
           :disable="offersStore.pagination.page == 1 || offersStore.numberOfPage == 0"
+          label="<"
           no-caps
           @click="prevPage()"
-          >&lt;</q-btn
-        >
+        />
         <q-btn
           color="blue"
           :disable="offersStore.pagination.page == offersStore.numberOfPage || offersStore.numberOfPage == 0"
+          label=">"
           no-caps
           @click="nextPage()"
-          >&gt;</q-btn
-        >
+        />
         <q-btn
           color="blue"
           :disable="offersStore.pagination.page == offersStore.numberOfPage || offersStore.numberOfPage == 0"
+          label=">>"
           no-caps
           @click="lastPage()"
-          >&gt;&gt;</q-btn
+        >
+        </q-btn>
+        <q-badge align="bottom" color="red" rounded
+          >{{ t('page') }} {{ offersStore.pagination.page }} / {{ offersStore.numberOfPage }}</q-badge
         >
       </div>
     </div>

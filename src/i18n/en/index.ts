@@ -22,4 +22,6 @@ export default {
   delete: 'Delete',
   new: 'New',
   edit: 'Edit',
+  filter: 'Filter',
+  page: 'Page',
 }

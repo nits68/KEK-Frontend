@@ -24,7 +24,6 @@ function onRequest(props: any) {
     offersStore.pagination.rowsPerPage = rowsPerPage as number;
     offersStore.pagination.sortBy = sortBy as string;
     offersStore.pagination.descending = descending as boolean;
-
     offersStore.getPaginatedOffers(); // get offers
   }
 }
@@ -33,7 +32,7 @@ onMounted(() => {
   if (!usersStore.isAdmin) {
     return;
   }
-  offersStore.pagination.rowsPerPage = $q.platform.is.mobile ? 5 : 20;
+  offersStore.pagination.rowsPerPage = $q.platform.is.mobile ? 5 : 10;
   onRequest({ pagination: offersStore.pagination });
   appStore.selectedOffer = [] as IOffer[];
   // offersStore.getPaginatedOffers();
@@ -78,7 +77,7 @@ const columns: QTableColumn[] = [
   { name: 'id', label: '_id', field: (row: IOffer) => row?._id, align: 'left', sortable: true },
   {
     name: 'offer_name',
-    label: 'Offer name',
+    label: 'Offer name*',
     field: (row: any) => row?.offer?.name,
     align: 'left',
     sortable: true,
@@ -127,14 +126,14 @@ const columns: QTableColumn[] = [
   },
   {
     name: 'product_name',
-    label: 'Product name',
+    label: 'Product name*',
     field: (row: any) => row?.product?.product_name,
     align: 'left',
     sortable: true,
   },
   {
     name: 'category_name',
-    label: 'Category name',
+    label: 'Category name*',
     field: (row: any) => row?.category?.category_name,
     align: 'left',
     sortable: true,
@@ -164,7 +163,7 @@ function selectRow(evt: Event, offer: IOffer): void {
         clearable
         dense
         filled
-        label="Filter"
+        label="Filter*"
         type="text"
         @update:model-value="filterUpdate()"
       />
@@ -176,7 +175,7 @@ function selectRow(evt: Event, offer: IOffer): void {
         dense
         row-key="_id"
         :rows="offersStore.offers"
-        :rows-per-page-options="$q.platform.is.mobile ? [5, 10, 15, 20] : [5, 10, 20, 30, 50, 100, 1000]"
+        :rows-per-page-options="[5, 10, 20, 30, 0]"
         selection="single"
         :title="t('edit_offers')"
         wrap-cells

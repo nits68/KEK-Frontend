@@ -53,14 +53,14 @@ const columns: QTableColumn[] = [
   { name: 'id', label: '_id', field: (row: ICategory) => row?._id, align: 'left', sortable: true },
   {
     name: 'main_category',
-    label: 'Main category',
+    label: 'Main category#',
     field: (row: ICategory) => row?.main_category,
     align: 'left',
     sortable: true,
   },
   {
     name: 'category_name',
-    label: 'Category name',
+    label: 'Category name#',
     field: (row: ICategory) => row?.category_name,
     align: 'left',
     sortable: true,
@@ -113,7 +113,7 @@ function selectRow(evt: Event, category: ICategory): void {
           class="q-ml-md"
           color="primary"
           :disable="appStore.selectedCategory.length != 1"
-          :label="t('edit')"
+          :label="`${t('edit')}#`"
           no-caps
           @click="editCategory()"
         />

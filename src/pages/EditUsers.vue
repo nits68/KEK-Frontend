@@ -99,25 +99,25 @@ async function filterUpdate() {
 // sort with: sortable: true
 // align with (default right): align: "center"
 const columns: QTableColumn[] = [
-  { name: 'name', label: 'name', field: (row: IUser) => row?.name, align: 'left', sortable: true },
-  { name: 'email', label: 'e-mail', field: (row: IUser) => row?.email, align: 'left', sortable: true },
+  { name: 'name', label: 'name*#', field: (row: IUser) => row?.name, align: 'left', sortable: true },
+  { name: 'email', label: 'e-mail*#', field: (row: IUser) => row?.email, align: 'left', sortable: true },
   {
     name: 'email_verified',
-    label: 'e-mail verified',
+    label: 'e-mail verified#',
     field: (row: IUser) => row?.email_verified,
     align: 'left',
     sortable: true,
   },
   {
     name: 'mobile_number',
-    label: 'mobile number',
+    label: 'mobile number#',
     field: (row: IUser) => row?.mobile_number,
     align: 'left',
     sortable: true,
   },
   {
     name: 'roles',
-    label: 'Roles',
+    label: 'Roles#',
     field: (row: IUser) => row?.roles?.map((x) => x).join(' '),
     align: 'left',
     sortable: true,
@@ -125,7 +125,7 @@ const columns: QTableColumn[] = [
   { name: 'id', label: '_id', field: (row: IUser) => row?._id, align: 'left', sortable: true },
   {
     name: 'picture',
-    label: 'Monogram or avatar URL',
+    label: 'Monogram or avatar URL#',
     field: (row: IUser) => (row.picture!.length > 2 ? row.picture!.slice(0, 30) + '...' : row.picture),
     align: 'left',
     sortable: true,
@@ -156,7 +156,7 @@ function selectRow(evt: Event, user: IUser): void {
         clearable
         dense
         filled
-        label="Filter in name and email"
+        label="Filter*"
         type="text"
         @update:model-value="filterUpdate()"
       />
@@ -182,7 +182,7 @@ function selectRow(evt: Event, user: IUser): void {
           class="q-ml-md"
           color="primary"
           :disable="appStore.selectedUser.length != 1"
-          :label="t('edit')"
+          :label="`${t('edit')}#`"
           no-caps
           @click="editUser()"
         />

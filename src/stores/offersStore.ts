@@ -207,8 +207,9 @@ export const useOfferssStore = defineStore('offersStore', {
       try {
         Loading.show();
         const filter: string = appStore.offersFilter == '' ? '*' : appStore.offersFilter;
+        const rowsPerPage = this.pagination.rowsPerPage == 0 ? this.pagination.rowsNumber : this.pagination.rowsPerPage;
         const res = await api.get(
-          `/offers/${(this.pagination.page - 1) * this.pagination.rowsPerPage}/${this.pagination.rowsPerPage}/${this.pagination.sortBy}/${filter}`,
+          `/offers/${(this.pagination.page - 1) * rowsPerPage}/${rowsPerPage}/${this.pagination.sortBy}/${filter}`,
         );
         if (res?.data) {
           this.offers = res.data;

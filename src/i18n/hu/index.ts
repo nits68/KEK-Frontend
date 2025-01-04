@@ -22,4 +22,6 @@ export default {
   delete: 'Törlés',
   new: 'Új',
   edit: 'Szerkesztés',
+  filter: 'Szűrés',
+  page: 'Oldal',
 };
