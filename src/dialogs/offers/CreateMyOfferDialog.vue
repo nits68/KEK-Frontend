@@ -219,7 +219,7 @@ const offerEndConverter = computed({
               <q-btn class="q-mr-md" color="red" label="Reset" no-caps type="reset" />
               <q-btn class="q-mr-md" color="blue" label="Close" no-caps @click="Close()" />
             </div>
-            {{ offersStore.actOffer }}
+            <!-- {{ offersStore.actOffer }} -->
           </div>
         </div>
       </q-form>

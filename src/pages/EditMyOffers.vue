@@ -19,8 +19,8 @@ const { t } = useI18n();
 
 onMounted(() => {
   if (usersStore.isAdmin || usersStore.isSp) {
-    offersStore.getMyOffers();
     appStore.selectedMyOffer = [] as IOffer[];
+    offersStore.getMyOffers();
   } else {
     return;
   }
@@ -148,7 +148,7 @@ function selectRow(evt: Event, offer: IOffer): void {
         dense
         row-key="_id"
         :rows="offersStore.offers"
-        :rows-per-page-options="$q.platform.is.mobile ? [5, 10, 15, 20] : [5, 10, 20, 30, 50, 100, 1000]"
+        :rows-per-page-options="$q.platform.is.mobile ? [5, 10, 20, 30, 0] : [10, 20, 30, 0]"
         selection="single"
         :title="t('edit_offers')"
         wrap-cells

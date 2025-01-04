@@ -1,18 +1,27 @@
 <script setup lang="ts">
 import { useAppStore } from '../stores/appStore';
 import { useOfferssStore } from '../stores/offersStore';
+import { useUsersStore } from '../stores/usersStore';
 import { useI18n } from 'vue-i18n';
+import { onMounted, watch } from 'vue';
 
-import { onMounted } from 'vue';
 // import { useRouter } from 'vue-router';
 
 const appStore = useAppStore();
 const offersStore = useOfferssStore();
+const usersStore = useUsersStore();
 
 const { t } = useI18n();
 
 onMounted(() => {
-  appStore.actOffersFilter = '';
+  appStore.resetAppStore();
+  offersStore.pagination.page = 1;
+  offersStore.pagination.rowsPerPage = 12;
+  offersStore.getPaginatedActiveOffers();
+});
+
+watch(() => usersStore.loggedUser?.email, () => {
+  appStore.resetAppStore();
   offersStore.pagination.page = 1;
   offersStore.pagination.rowsPerPage = 12;
   offersStore.getPaginatedActiveOffers();
@@ -122,6 +131,7 @@ function lastPage() {
               class="q-mr-sm"
               clearable
               dense
+              :disable="!usersStore.loggedUser"
               :max="e.quantity"
               min="0"
               outlined
@@ -132,10 +142,13 @@ function lastPage() {
             />
             <q-btn
               color="primary"
-              :disable="e.order_quantity == 0 || e.order_quantity > e.quantity"
+              :disable="e.order_quantity == 0 || e.order_quantity > e.quantity || !usersStore.loggedUser"
               flat
               label="Kosárba"
-              @click="appStore.basketCounter++"
+              @click="
+                appStore.basketCounter++;
+                e.order_quantity = 0;
+              "
             />
 
             <q-space />

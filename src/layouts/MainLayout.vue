@@ -254,6 +254,9 @@ onMounted(() => {
               to="/editoffers"
             />
           </div>
+          <div class="q-ma-md">
+              <q-img src="../assets/kek_cimer.png" />
+            </div>
         </q-scroll-area>
       </q-drawer>
 

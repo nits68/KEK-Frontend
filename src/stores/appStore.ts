@@ -61,7 +61,32 @@ export const useAppStore = defineStore('appStore', {
   }),
 
   // getters: {},
-  actions: {},
+  actions: {
+    resetAppStore(): void {
+      this.usersFilter = '';
+      this.productsFilter = '';
+      this.offersFilter = '';
+      this.actOffersFilter = '';
+      this.showLoginDialog = false;
+      this.showProfileDialog = false;
+      this.showEditUserDialog = false;
+      this.showCreateUserDialog = false;
+      this.showEditCategoriesDialog = false;
+      this.showCreateCategoryDialog = false;
+      this.showEditProductsDialog = false;
+      this.showCreateProductDialog = false;
+      this.showEditOffersDialog = false;
+      this.showCreateOfferDialog = false;
+      this.showEditMyOffersDialog = false;
+      this.showCreateMyOfferDialog = false;
+      this.basketCounter = 0;
+      this.selectedUser = [];
+      this.selectedCategory = [];
+      this.selectedProduct = [];
+      this.selectedOffer = [];
+      this.selectedMyOffer = [];
+    },
+  },
   // all "state" data is stored in browser session store:
   persist: {
     storage: sessionStorage,

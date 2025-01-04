@@ -2,28 +2,28 @@
 import { Dialog, date } from 'quasar';
 import { type IOffer, useOfferssStore } from '../../stores/offersStore';
 import { useAppStore } from '../../stores/appStore';
-import { type IProduct, useProductsStore } from '../../stores/productsStore';
-import { ref } from 'vue';
+// import { type IProduct, useProductsStore } from '../../stores/productsStore';
+// import { ref } from 'vue';
 import { computed } from 'vue';
 
 const appStore = useAppStore();
 const offersStore = useOfferssStore();
-const productsStore = useProductsStore();
+// const productsStore = useProductsStore();
 // const router = useRouter();
 
-const options = ref([] as IProduct[]);
+// const options = ref([] as IProduct[]);
 
 async function ShowDialog() {
   await offersStore.getOfferById();
-  await productsStore.getAllProducts();
+  // await productsStore.getAllProducts();
   // await categoriesStore.getAllCategories();
   // for filter function:
-  Object.assign(options.value, productsStore.products);
+  // Object.assign(options.value, productsStore.products);
 }
 
 function HideDialog() {
   offersStore.actOffer = {} as IOffer;
-  productsStore.products = [];
+  // productsStore.products = [];
   // categoriesStore.categories = [];
 }
 
