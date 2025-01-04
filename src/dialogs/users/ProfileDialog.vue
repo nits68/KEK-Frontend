@@ -156,11 +156,10 @@ function isValidPassword(result: boolean): void {
               type="text"
             />
 
-            <div class="q-pa-sm q-mb-sm rounded-borders bg-grey-2">
+            <div class="q-pa-sm q-mb-sm rounded-borders">
               Roles
               <q-option-group
                 v-model="usersStore.actUser.roles"
-                color="primary"
                 dense
                 :disable="true"
                 :options="[
@@ -183,8 +182,8 @@ function isValidPassword(result: boolean): void {
             />
 
             <div class="row justify-center q-mb-xl">
-              <q-btn class="q-mr-md" color="green" label="Save" no-caps type="submit" />
-              <q-btn class="q-mr-md" color="blue" label="Close" no-caps @click="Close()" />
+              <q-btn class="q-mr-md" color="red" label="Save" no-caps type="submit" />
+              <q-btn class="q-mr-md" color="green" label="Close" no-caps @click="Close()" />
               <q-btn class="q-mr-md" color="blue" label="Reset" no-caps @click="Reset()" />
             </div>
           </div>
