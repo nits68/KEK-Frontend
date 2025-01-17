@@ -13,8 +13,8 @@ interface IProps {
   password?: string;
 }
 const props = withDefaults(defineProps<IProps>(), {
-  email: 'student001@jedlik.eu', // set value of optional prop
-  password: 'student001',
+  email: 'admin@jedlik.eu', // set value of optional prop
+  password: 'admin',
 });
 
 const usersStore = useUsersStore();

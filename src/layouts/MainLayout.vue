@@ -269,7 +269,7 @@ onMounted(() => {
         </q-toolbar>
       </q-footer>
 
-      <LoginDialog email="esze.gabor@students.jedlik.eu" password="gabor" />
+      <LoginDialog email="admin@jedlik.eu" password="admin" />
       <ProfileDialog />
 
       <!-- Main container (DON'T DELETE!) -->
