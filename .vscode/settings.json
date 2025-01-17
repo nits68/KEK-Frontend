@@ -33,5 +33,10 @@
     "**/*.npmrc": false,
     "**/.git": false
   },
-  "workbench.editor.closeOnFileDelete": true
+  "workbench.editor.closeOnFileDelete": true,
+  "git.branchProtectionPrompt": "alwaysCommitToNewBranch",
+  "git.branchProtection": [
+    "main",
+    "master"
+  ],
 }
