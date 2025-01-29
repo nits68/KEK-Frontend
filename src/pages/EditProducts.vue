@@ -20,14 +20,14 @@ onMounted(() => {
   if (!usersStore.isAdmin) {
     return;
   }
-  productsStore.getAllProducts();
+  void productsStore.getAllProducts();
   appStore.selectedProduct = [] as IProduct[];
 });
 
 // Selected row(s) -> selection="single" or selection="multiple"
 // const selected = ref<IUser[]>([] as IUser[]);
 
-async function deleteProduct(): Promise<void> {
+function deleteProduct(): void {
   Dialog.create({
     title: 'Confirm',
     message: 'Would you like delete the selected product?',
@@ -45,13 +45,13 @@ async function deleteProduct(): Promise<void> {
     });
 }
 
-async function editProduct(): Promise<void> {
+function editProduct(): void {
   productsStore.actProduct = { _id: appStore.selectedProduct.at(0)?._id } as IProduct;
   appStore.showEditProductsDialog = true;
   // selected.value = [] as IUser[];
 }
 
-async function createProduct(): Promise<void> {
+function createProduct(): void {
   appStore.showCreateProductDialog = true;
 }
 

@@ -15,7 +15,7 @@ export default [
      *
      * ESLint requires "ignores" key to be the only one in this object
      */
-    ignores: ["node_modules/**/*", "dist/**/*", ".git/**/*", ".quasar/**/*", ".vscode/**/*", "help/**/*"],
+    // ignores: ["node_modules/**/*", "dist/**/*", ".git/**/*", ".quasar/**/*", ".vscode/**/*", "help/**/*"],
   },
 
   ...pluginQuasar.configs.recommended(),
@@ -35,6 +35,12 @@ export default [
    */
   ...pluginVue.configs['flat/essential'],
 
+  {
+    files: ['**/*.ts', '**/*.vue'],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+    },
+  },
   // https://github.com/vuejs/eslint-config-typescript
   ...vueTsEslintConfig({
     // Optional: extend additional configurations from typescript-eslint'.
@@ -42,7 +48,7 @@ export default [
     // https://typescript-eslint.io/users/configs#recommended-configurations
     extends: [
       // By default, only the recommended rules are enabled.
-      'recommended',
+      'recommendedTypeChecked',
       // You can also manually enable the stylistic rules.
       // "stylistic",
 
@@ -71,7 +77,6 @@ export default [
     // add your custom rules here
     rules: {
       'prefer-promise-reject-errors': 'off',
-      '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
 
       // allow debugger during development only
       'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -82,6 +87,7 @@ export default [
       '@typescript-eslint/no-namespace': 'off',
       'vue/attributes-order': ['warn', { alphabetical: true }],
       'eol-last': ['warn', 'always'],
+      '@typescript-eslint/no-misused-promises': 'off',
     },
   },
 

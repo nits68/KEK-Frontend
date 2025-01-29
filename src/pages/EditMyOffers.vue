@@ -17,10 +17,10 @@ const offersStore = useOfferssStore();
 const $q = useQuasar();
 const { t } = useI18n();
 
-onMounted(() => {
+onMounted(async () => {
   if (usersStore.isAdmin || usersStore.isSp) {
     appStore.selectedMyOffer = [] as IOffer[];
-    offersStore.getMyOffers();
+    await offersStore.getMyOffers();
   } else {
     return;
   }
@@ -29,7 +29,7 @@ onMounted(() => {
 // Selected row(s) -> selection="single" or selection="multiple"
 // const selected = ref<IUser[]>([] as IUser[]);
 
-async function deleteMyOffer(): Promise<void> {
+function deleteMyOffer(): void {
   Dialog.create({
     title: 'Confirm',
     message: 'Would you like delete the selected offer?',
@@ -47,13 +47,13 @@ async function deleteMyOffer(): Promise<void> {
     });
 }
 
-async function editMyOffer(): Promise<void> {
+function editMyOffer(): void {
   offersStore.actOffer = { _id: appStore.selectedMyOffer.at(0)?._id } as IOffer;
   appStore.showEditMyOffersDialog = true;
   // selected.value = [] as IUser[];
 }
 
-async function createOffer(): Promise<void> {
+function createOffer(): void {
   appStore.showCreateOfferDialog = true;
 }
 

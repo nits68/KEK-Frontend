@@ -14,15 +14,15 @@ const categoriesStore = useCategoriesStore();
 const $q = useQuasar();
 const { t } = useI18n();
 
-onMounted(() => {
+onMounted(async () => {
   if (!usersStore.isAdmin) {
     return;
   }
-  categoriesStore.getAllCategories();
+  await categoriesStore.getAllCategories();
   appStore.selectedCategory = [] as ICategory[];
 });
 
-async function deleteCategory(): Promise<void> {
+function deleteCategory(): void {
   Dialog.create({
     title: 'Confirm',
     message: 'Would you like delete the selected category?',
@@ -40,12 +40,12 @@ async function deleteCategory(): Promise<void> {
     });
 }
 
-async function editCategory(): Promise<void> {
+function editCategory(): void {
   categoriesStore.actCategory = { _id: appStore.selectedCategory.at(0)?._id } as ICategory;
   appStore.showEditCategoriesDialog = true;
 }
 
-async function createCategory(): Promise<void> {
+function createCategory(): void {
   appStore.showCreateCategoryDialog = true;
 }
 

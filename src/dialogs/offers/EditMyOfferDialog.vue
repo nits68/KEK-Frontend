@@ -53,13 +53,12 @@ function Close() {
   appStore.showEditMyOffersDialog = false;
 }
 
-
 const offerEndConverter = computed({
   get() {
     return date.formatDate(offersStore.actOffer.offer_end as Date, 'YYYY-MM-DD');
   },
   set(newValue) {
-    offersStore.actOffer.offer_end = new Date(newValue as string);
+    offersStore.actOffer.offer_end = new Date(newValue);
   },
 });
 </script>
@@ -71,7 +70,7 @@ const offerEndConverter = computed({
         <div class="row">
           <div v-if="offersStore.actOffer._id" class="col-12">
             <h5 class="text-center q-ma-sm">Edit my offer</h5>
-            
+
             <q-input
               id="quantity"
               v-model.number="offersStore.actOffer.quantity"

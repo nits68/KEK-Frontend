@@ -21,7 +21,6 @@ const r = reactive<IReactiveData>({
   isPwd: true,
 });
 
-
 async function ShowDialog() {
   await usersStore.getUserById();
   r.password_ok = true;
