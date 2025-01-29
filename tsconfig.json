@@ -2,6 +2,7 @@
   "extends": "./.quasar/tsconfig.json",
   "compilerOptions": {
     "noImplicitAny": false,
+    "moduleResolution": "node",
     "types": [
       "node"
     ]

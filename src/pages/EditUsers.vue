@@ -13,18 +13,22 @@ const appStore = useAppStore();
 const $q = useQuasar();
 const { t } = useI18n();
 
-onMounted(() => {
+onMounted(async () => {
   if (!usersStore.isAdmin) {
     return;
   }
-  usersStore.getAllUsers();
-  appStore.selectedUser = [] as IUser[];
+  try {
+    await usersStore.getAllUsers();
+    appStore.selectedUser = [] as IUser[];
+  } catch (error) {
+    console.error('Error in onMounted():', error);
+  }
 });
 
 // Selected row(s) -> selection="single" or selection="multiple"
 // const selected = ref<IUser[]>([] as IUser[]);
 
-async function deleteUser(): Promise<void> {
+function deleteUser(): void {
   Dialog.create({
     title: 'Confirm',
     message: 'Would you like delete the selected user?',
@@ -42,13 +46,13 @@ async function deleteUser(): Promise<void> {
     });
 }
 
-async function editUser(): Promise<void> {
+function editUser(): void {
   usersStore.actUser = { _id: appStore.selectedUser.at(0)?._id } as IUser;
   appStore.showEditUserDialog = true;
   // selected.value = [] as IUser[];
 }
 
-async function createUser(): Promise<void> {
+function createUser(): void {
   appStore.showCreateUserDialog = true;
   // s.many.document = { id: selected.value[0].id };
   // usersStore.document = { id: s.app.selected[0].id } as IMany;
@@ -176,7 +180,13 @@ function selectRow(evt: Event, user: IUser): void {
 
       <!-- Button for delete selected record: -->
       <div class="row justify-center q-ma-md">
-        <q-btn color="red" :disable="appStore.selectedUser.length != 1" :label="t('delete')" no-caps @click="deleteUser()" />
+        <q-btn
+          color="red"
+          :disable="appStore.selectedUser.length != 1"
+          :label="t('delete')"
+          no-caps
+          @click="deleteUser()"
+        />
         <q-btn class="q-ml-md" color="green" :label="t('new')" no-caps @click="createUser()" />
         <q-btn
           class="q-ml-md"

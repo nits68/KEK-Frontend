@@ -30,9 +30,9 @@ function toggleLanguage() {
   locale.value = locale.value == 'hu' ? 'en' : 'hu';
 }
 
-onMounted(() => {
+onMounted(async () => {
   if (!usersStore.loggedUser) {
-    usersStore.autoLogin();
+    await usersStore.autoLogin();
   }
   appStore.showProfileDialog = false;
 });

@@ -60,48 +60,42 @@ export const useUsersStore = defineStore('usersStore', {
     async loginRegisterWithGoogle(accessToken: string) {
       Loading.show();
       this.isLoading = true;
-      api
-        .post('auth/google', { atoken: accessToken })
-        .then((res) => {
-          this.loggedUser = res.data as IUser;
-          Notify.create({
-            message: `${this.loggedUser.name} with ${this.loggedUser.email} e-mail is logged in`,
-            color: 'positive',
-          });
-        })
-        .catch(() => {
-          this.loggedUser = null;
-          Notify.create({ message: 'Error on Authentication', color: 'negative' });
-        })
-        .finally(() => {
-          Loading.hide();
-          this.isLoading = false;
+      try {
+        const res = await api.post('auth/google', { atoken: accessToken });
+        this.loggedUser = res.data as IUser;
+        Notify.create({
+          message: `${this.loggedUser.name} with ${this.loggedUser.email} e-mail is logged in`,
+          color: 'positive',
         });
+      } catch {
+        this.loggedUser = null;
+        Notify.create({ message: 'Error on Authentication', color: 'negative' });
+      } finally {
+        Loading.hide();
+        this.isLoading = false;
+      }
     },
 
     async loginUser(params: IUser): Promise<void> {
       Loading.show();
       this.isLoading = true;
-      api
-        .post('auth/login', {
+      try {
+        const res = await api.post('auth/login', {
           email: params.email,
           password: params.password,
-        })
-        .then((res) => {
-          this.loggedUser = res.data;
-          Notify.create({
-            message: `${res.data.name} with ${res.data.email} e-mail is logged in`,
-            color: 'positive',
-          });
-        })
-        .catch(() => {
-          this.loggedUser = null;
-          Notify.create({ message: 'Error on Authentication', color: 'negative' });
-        })
-        .finally(() => {
-          Loading.hide();
-          this.isLoading = false;
         });
+        this.loggedUser = res.data;
+        Notify.create({
+          message: `${res.data.name} with ${res.data.email} e-mail is logged in`,
+          color: 'positive',
+        });
+      } catch {
+        this.loggedUser = null;
+        Notify.create({ message: 'Error on Authentication', color: 'negative' });
+      } finally {
+        Loading.hide();
+        this.isLoading = false;
+      }
     },
 
     async registerUser(params: IUser): Promise<void> {
@@ -128,60 +122,53 @@ export const useUsersStore = defineStore('usersStore', {
     async autoLogin(): Promise<void> {
       Loading.show();
       this.isLoading = true;
-      api
-        .post('auth/autologin')
-        .then((res) => {
-          if (res.status == 404) {
-            this.loggedUser = null;
-          } else {
-            this.loggedUser = res.data;
-            Notify.create({
-              message: `Auto login success with ${this.loggedUser?.email}}`,
-              color: 'positive',
-            });
-          }
-        })
-        .catch((error) => {
+      try {
+        const res = await api.post('auth/autologin');
+        if (res.status == 404) {
           this.loggedUser = null;
+        } else {
+          this.loggedUser = res.data;
           Notify.create({
-            message: `Auto login not aviable! ${error.response.data.message}`,
-            color: 'negative',
+            message: `Auto login success with ${this.loggedUser?.email}}`,
+            color: 'positive',
           });
-        })
-        .finally(() => {
-          Loading.hide();
-          this.isLoading = false;
+        }
+      } catch (error: any) {
+        this.loggedUser = null;
+        Notify.create({
+          message: `Auto login not aviable! ${error.response.data.message}`,
+          color: 'negative',
         });
+      } finally {
+        Loading.hide();
+        this.isLoading = false;
+      }
     },
 
     async logOut(withNotify = true): Promise<void> {
       Loading.show();
       this.isLoading = true;
-      api
-        .post('auth/logout')
-        .then(() => {
-          this.loggedUser = null;
-          if (withNotify) {
-            Notify.create({
-              message: 'Successful logout',
-              color: 'positive',
-            });
-          }
-        })
-        .catch(() => {
-          this.loggedUser = null;
-          Notify.create({ message: 'Error on log out', color: 'negative' });
-        })
-        .finally(() => {
-          this.isLoading = false;
-          Loading.hide();
-        });
+      try {
+        await api.post('auth/logout');
+        this.loggedUser = null;
+        if (withNotify) {
+          Notify.create({
+            message: 'Successful logout',
+            color: 'positive',
+          });
+        }
+      } catch {
+        this.loggedUser = null;
+        Notify.create({ message: 'Error on log out', color: 'negative' });
+      } finally {
+        this.isLoading = false;
+        Loading.hide();
+      }
     },
 
     async closeApp(): Promise<void> {
-      api.post('auth/closeapp').then(() => {
-        this.loggedUser = null;
-      });
+      await api.post('auth/closeapp');
+      this.loggedUser = null;
     },
 
     async getAllUsers(): Promise<void> {

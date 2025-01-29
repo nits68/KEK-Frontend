@@ -82,7 +82,7 @@ const offerStartConverter = computed({
     return date.formatDate(offersStore.actOffer.offer_start as Date, 'YYYY-MM-DD');
   },
   set(newValue) {
-    offersStore.actOffer.offer_start = new Date(newValue as string);
+    offersStore.actOffer.offer_start = new Date(newValue);
   },
 });
 
@@ -91,7 +91,7 @@ const offerEndConverter = computed({
     return date.formatDate(offersStore.actOffer.offer_end as Date, 'YYYY-MM-DD');
   },
   set(newValue) {
-    offersStore.actOffer.offer_end = new Date(newValue as string);
+    offersStore.actOffer.offer_end = new Date(newValue);
   },
 });
 </script>

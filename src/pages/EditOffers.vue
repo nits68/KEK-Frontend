@@ -17,23 +17,23 @@ const offersStore = useOfferssStore();
 const $q = useQuasar();
 const { t } = useI18n();
 
-function onRequest(props: any) {
+async function onRequest(props: any): Promise<void> {
   if (props.pagination) {
     const { page, rowsPerPage, sortBy, descending } = props.pagination;
     offersStore.pagination.page = page as number;
     offersStore.pagination.rowsPerPage = rowsPerPage as number;
     offersStore.pagination.sortBy = sortBy as string;
     offersStore.pagination.descending = descending as boolean;
-    offersStore.getPaginatedOffers(); // get offers
+    await offersStore.getPaginatedOffers(); // get offers
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   if (!usersStore.isAdmin) {
     return;
   }
   offersStore.pagination.rowsPerPage = $q.platform.is.mobile ? 5 : 10;
-  onRequest({ pagination: offersStore.pagination });
+  await onRequest({ pagination: offersStore.pagination });
   appStore.selectedOffer = [] as IOffer[];
   // offersStore.getPaginatedOffers();
 });
@@ -41,7 +41,7 @@ onMounted(() => {
 // Selected row(s) -> selection="single" or selection="multiple"
 // const selected = ref<IUser[]>([] as IUser[]);
 
-async function deleteOffer(): Promise<void> {
+function deleteOffer(): void {
   Dialog.create({
     title: 'Confirm',
     message: 'Would you like delete the selected offer?',
@@ -59,7 +59,7 @@ async function deleteOffer(): Promise<void> {
     });
 }
 
-async function editOffer(): Promise<void> {
+function editOffer():void {
   offersStore.actOffer = { _id: appStore.selectedOffer.at(0)?._id } as IOffer;
   appStore.showEditOffersDialog = true;
   // selected.value = [] as IUser[];

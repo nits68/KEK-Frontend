@@ -45,20 +45,20 @@ function isValidEmail(email: string): boolean | string {
   return LoginHelper.IsValidEmail(email);
 }
 
-function LogInOut() {
+async function LogInOut() {
   if (!anyLoggedUser.value) {
-    usersStore.loginUser({
+    await usersStore.loginUser({
       email: r.email,
       password: r.password,
     });
   } else {
-    usersStore.logOut();
+    await usersStore.logOut();
   }
 }
 
-function Register() {
+async function Register() {
   if (!anyLoggedUser.value) {
-    usersStore.registerUser({
+    await usersStore.registerUser({
       email: r.email,
       password: r.password,
     });
@@ -73,18 +73,21 @@ function dialogShow() {
   }
 }
 
-function dialogHide() {
-  router.push('/');
+async function dialogHide() {
+  await router.push('/');
 }
 
 function isValidPassword(result: boolean): void {
   r.password_ok = result;
 }
 
-function loginRegisterGoogle() {
-  googleTokenLogin().then((response: CallbackTypes.TokenPopupResponse) => {
-    usersStore.loginRegisterWithGoogle(response.access_token);
-  });
+async function loginRegisterGoogle(): Promise<void> {
+  try {
+    const response: CallbackTypes.TokenPopupResponse = await googleTokenLogin();
+    await usersStore.loginRegisterWithGoogle(response.access_token);
+  } catch (error) {
+    console.error('Google login error:', error);
+  }
 }
 </script>
 

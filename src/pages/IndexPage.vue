@@ -13,18 +13,18 @@ const usersStore = useUsersStore();
 
 const { t } = useI18n();
 
-onMounted(() => {
+onMounted(async () => {
   appStore.resetAppStore();
   offersStore.pagination.page = 1;
   offersStore.pagination.rowsPerPage = 12;
-  offersStore.getPaginatedActiveOffers();
+  await offersStore.getPaginatedActiveOffers();
 });
 
-watch(() => usersStore.loggedUser?.email, () => {
+watch(() => usersStore.loggedUser?.email, async () => {
   appStore.resetAppStore();
   offersStore.pagination.page = 1;
   offersStore.pagination.rowsPerPage = 12;
-  offersStore.getPaginatedActiveOffers();
+  await offersStore.getPaginatedActiveOffers();
 });
 
 async function filterUpdate() {
@@ -36,24 +36,24 @@ async function filterUpdate() {
   await offersStore.getPaginatedActiveOffers();
 }
 
-function firstPage() {
+async function firstPage() {
   offersStore.pagination.page = 1;
-  offersStore.getPaginatedActiveOffers();
+  await offersStore.getPaginatedActiveOffers();
 }
 
-function prevPage() {
+async function prevPage() {
   offersStore.pagination.page--;
-  offersStore.getPaginatedActiveOffers();
+  await offersStore.getPaginatedActiveOffers();
 }
 
-function nextPage() {
+async function nextPage() {
   offersStore.pagination.page++;
-  offersStore.getPaginatedActiveOffers();
+  await offersStore.getPaginatedActiveOffers();
 }
 
-function lastPage() {
+async function lastPage() {
   offersStore.pagination.page = offersStore.numberOfPage;
-  offersStore.getPaginatedActiveOffers();
+  await offersStore.getPaginatedActiveOffers();
 }
 </script>
 

@@ -58,7 +58,7 @@ const offerEndConverter = computed({
     return date.formatDate(offersStore.actOffer.offer_end as Date, 'YYYY-MM-DD');
   },
   set(newValue) {
-    offersStore.actOffer.offer_end = new Date(newValue as string);
+    offersStore.actOffer.offer_end = new Date(newValue);
   },
 });
 </script>
