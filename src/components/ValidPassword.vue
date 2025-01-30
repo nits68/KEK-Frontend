@@ -78,7 +78,7 @@ watch(props, () => {
     class="q-ma-none"
     :class="e[1].isOk ? 'text-green' : 'text-red'"
     :color="e[1].isOk ? 'green' : 'red'"
-    :data-test="e[1].test"
+    :data-cy="e[1].test"
     disable
     keep-color
     :label="e[1].label"
