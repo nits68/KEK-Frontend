@@ -2,10 +2,10 @@
 import { useAppStore } from '../stores/appStore';
 import { useOfferssStore } from '../stores/offersStore';
 import { useUsersStore } from '../stores/usersStore';
-import { useI18n } from 'vue-i18n';
 import { onMounted, watch } from 'vue';
 import OfferCard from '../components/OfferCard.vue';
 import PagingBar from '../components/PagingBar.vue';
+import FilterInput from '../components/FilterInput.vue';
 
 // import { useRouter } from 'vue-router';
 
@@ -13,7 +13,6 @@ const appStore = useAppStore();
 const offersStore = useOfferssStore();
 const usersStore = useUsersStore();
 
-const { t } = useI18n();
 
 onMounted(async () => {
   appStore.resetAppStore();
@@ -32,37 +31,13 @@ watch(
   },
 );
 
-async function filterUpdate() {
-  // Clear button (x) set filter to null
-  if (!appStore.actOffersFilter) {
-    appStore.actOffersFilter = '';
-  }
-  offersStore.pagination.page = 1;
-  await offersStore.getPaginatedActiveOffers();
-}
 </script>
 
 <template>
   <q-page class="q-pa-md">
     <div class="row">
       <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 q-mr-sm q-mb-sm">
-        <q-input
-          v-model="appStore.actOffersFilter"
-          clearable
-          dense
-          filled
-          :label="t('filter')"
-          type="text"
-          width="100%"
-          @clear="filterUpdate()"
-          @keypress.enter.prevent="filterUpdate()"
-        >
-          <template v-slot:append>
-            <q-btn flat icon="search" round @click="filterUpdate()">
-              <q-badge align="top" color="red" floating rounded>{{ offersStore.pagination.rowsNumber }}</q-badge>
-            </q-btn>
-          </template>
-        </q-input>
+        <FilterInput />
       </div>
       <PagingBar />
     </div>
