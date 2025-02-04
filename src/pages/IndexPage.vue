@@ -5,6 +5,7 @@ import { useUsersStore } from '../stores/usersStore';
 import { useI18n } from 'vue-i18n';
 import { onMounted, watch } from 'vue';
 import OfferCard from '../components/OfferCard.vue';
+import PagingBar from '../components/PagingBar.vue';
 
 // import { useRouter } from 'vue-router';
 
@@ -39,26 +40,6 @@ async function filterUpdate() {
   offersStore.pagination.page = 1;
   await offersStore.getPaginatedActiveOffers();
 }
-
-async function firstPage() {
-  offersStore.pagination.page = 1;
-  await offersStore.getPaginatedActiveOffers();
-}
-
-async function prevPage() {
-  offersStore.pagination.page--;
-  await offersStore.getPaginatedActiveOffers();
-}
-
-async function nextPage() {
-  offersStore.pagination.page++;
-  await offersStore.getPaginatedActiveOffers();
-}
-
-async function lastPage() {
-  offersStore.pagination.page = offersStore.numberOfPage;
-  await offersStore.getPaginatedActiveOffers();
-}
 </script>
 
 <template>
@@ -83,40 +64,7 @@ async function lastPage() {
           </template>
         </q-input>
       </div>
-      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 q-gutter-x-sm text-center">
-        <q-btn
-          color="blue"
-          :disable="offersStore.pagination.page == 1 || offersStore.numberOfPage == 0"
-          label="<<"
-          no-caps
-          @click="firstPage()"
-        />
-        <q-btn
-          color="blue"
-          :disable="offersStore.pagination.page == 1 || offersStore.numberOfPage == 0"
-          label="<"
-          no-caps
-          @click="prevPage()"
-        />
-        <q-btn
-          color="blue"
-          :disable="offersStore.pagination.page == offersStore.numberOfPage || offersStore.numberOfPage == 0"
-          label=">"
-          no-caps
-          @click="nextPage()"
-        />
-        <q-btn
-          color="blue"
-          :disable="offersStore.pagination.page == offersStore.numberOfPage || offersStore.numberOfPage == 0"
-          label=">>"
-          no-caps
-          @click="lastPage()"
-        >
-        </q-btn>
-        <q-badge align="bottom" color="red" rounded
-          >{{ t('page') }} {{ offersStore.pagination.page }} / {{ offersStore.numberOfPage }}</q-badge
-        >
-      </div>
+      <PagingBar />
     </div>
 
     <div class="row">
