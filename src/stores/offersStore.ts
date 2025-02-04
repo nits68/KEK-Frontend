@@ -31,7 +31,20 @@ export interface IOffer {
   info?: string;
   user_id?: string;
   product_id?: string;
+  product?: {
+    product_name?: string;
+    picture_url?: string;
+  };
+  category?: {
+    category_name?: string;
+    main_category?: string;
+  };
+  offer?: {
+    email?: string;
+    name?: string;
+  };
   expanded?: boolean;
+  order_quantity?: number;
 }
 
 interface IState {

@@ -4,6 +4,7 @@ import { useOfferssStore } from '../stores/offersStore';
 import { useUsersStore } from '../stores/usersStore';
 import { useI18n } from 'vue-i18n';
 import { onMounted, watch } from 'vue';
+import OfferCard from '../components/OfferCard.vue';
 
 // import { useRouter } from 'vue-router';
 
@@ -20,12 +21,15 @@ onMounted(async () => {
   await offersStore.getPaginatedActiveOffers();
 });
 
-watch(() => usersStore.loggedUser?.email, async () => {
-  appStore.resetAppStore();
-  offersStore.pagination.page = 1;
-  offersStore.pagination.rowsPerPage = 12;
-  await offersStore.getPaginatedActiveOffers();
-});
+watch(
+  () => usersStore.loggedUser?.email,
+  async () => {
+    appStore.resetAppStore();
+    offersStore.pagination.page = 1;
+    offersStore.pagination.rowsPerPage = 12;
+    await offersStore.getPaginatedActiveOffers();
+  },
+);
 
 async function filterUpdate() {
   // Clear button (x) set filter to null
@@ -116,67 +120,8 @@ async function lastPage() {
     </div>
 
     <div class="row">
-      <div v-for="e in offersStore.offers as any[]" :key="e._id as string" class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <q-card class="q-ma-sm">
-          <q-img loading="eager" :ratio="1 / 1" :src="e.picture_url == 'none' ? e.product.picture_url : e.picture_url">
-            <div class="text-h6 absolute-top text-center">
-              {{ e.product.product_name }}
-            </div>
-            <div class="text-h7 absolute-bottom text-center">{{ e.unit_price }}Ft/{{ e.unit }}</div>
-          </q-img>
-
-          <q-card-actions>
-            <q-input
-              v-model.number="e.order_quantity"
-              class="q-mr-sm"
-              clearable
-              dense
-              :disable="!usersStore.loggedUser"
-              :max="e.quantity"
-              min="0"
-              outlined
-              rounded
-              style="max-width: 100px"
-              type="number"
-              @clear="e.order_quantity = 0"
-            />
-            <q-btn
-              color="primary"
-              :disable="e.order_quantity == 0 || e.order_quantity > e.quantity || !usersStore.loggedUser"
-              flat
-              label="Kosárba"
-              @click="
-                appStore.basketCounter++;
-                e.order_quantity = 0;
-              "
-            />
-
-            <q-space />
-
-            <q-btn
-              color="grey"
-              dense
-              flat
-              :icon="e.expanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down'"
-              round
-              @click="e.expanded = !e.expanded"
-            />
-          </q-card-actions>
-
-          <q-slide-transition>
-            <div v-show="e.expanded">
-              <q-separator />
-              <q-card-section class="text-subtitle3">
-                <div><b>Info:</b> {{ e.info }}</div>
-                <div><b>Kistermelő:</b> {{ e.offer.name }}</div>
-                <div><b>Készleten:</b> {{ e.quantity }}{{ e.unit }}</div>
-                <div><b>Dátum:</b> {{ e.offer_start.slice(0, 10) }}</div>
-                <div><b>Kategória:</b> {{ e.category.category_name }}</div>
-                <div><b>Fő kategórira:</b> {{ e.category.main_category }}</div>
-              </q-card-section>
-            </div>
-          </q-slide-transition>
-        </q-card>
+      <div v-for="(_, index) in offersStore.offers" :key="index" class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <OfferCard :index="index" />
       </div>
     </div>
   </q-page>
@@ -186,9 +131,4 @@ async function lastPage() {
 h2 {
   font-size: 3vw;
 }
-// .q-page {
-//   background-image: url('../assets/kek_cimer.png');
-//   background-repeat: no-repeat;
-//   background-position: center;
-// }
 </style>
